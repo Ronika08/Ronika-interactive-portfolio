@@ -1,0 +1,28 @@
+{
+  "name": "Ronika S",
+  "headline": "Software Engineering Aspirant | AI Enthusiast | Full Stack Developer",
+  "tagline": "Passionate About Technology, Focused on Impact",
+  "subtitle": "Every Click Reveals a Story.",
+  "description": "A Software Developer and AI enthusiast passionate about building intelligent, scalable, and impactful digital solutions. I combine technical expertise, creativity, and problem-solving to transform ideas into innovative experiences that address real-world challenges.",
+
+  "role": "Software Engineering Aspirant",
+
+  "location": "Mysuru, Karnataka",
+  "preferredLocation": "Bengaluru",
+
+  "email": "ronikaronu8867@gmail.com",
+
+  "github": "https://github.com/Ronika08",
+  "linkedin": "https://www.linkedin.com/in/ronika-s-7647552a2/",
+
+  "resume": "/resume.pdf",
+
+  "typingRoles": [
+    "Developer",
+    "Designer",
+    "Builder",
+    "Creator"
+  ],
+
+  "availability": "Open to internships and software engineering opportunities"
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "curious-explorer",
+    "icon": "🔍",
+    "title": "Curious Explorer",
+    "description": "Wander freely through projects, ideas, and experiments at your own pace. No pressure, just discovery.",
+    "sections": ["Portfolio Overview", "Side Projects", "Research & Writing", "Tech Stack Deep Dives"]
+  },
+  {
+    "id": "recruiter-rush",
+    "icon": "🚀",
+    "title": "Recruiter Rush",
+    "description": "A curated fast-track through the highlights that matter most — skills, impact, and availability.",
+    "sections": ["60-Second Summary", "Key Achievements", "Tech Proficiencies", "Contact & Availability"]
+  },
+  {
+    "id": "challenge-mode",
+    "icon": "🎮",
+    "title": "Challenge Mode",
+    "description": "Dive into puzzles, live demos, and interactive builds. Prove your curiosity by doing, not just reading.",
+    "sections": ["Live Coding Demos", "Interactive Puzzles", "Open Source Contributions", "Collaborative Challenges"]
+  }
+]

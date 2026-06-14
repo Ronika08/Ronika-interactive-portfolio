@@ -1,0 +1,8 @@
+{
+  "Programming": ["Python", "Java", "JavaScript"],
+  "Frontend": ["HTML", "CSS", "JavaScript"],
+  "Backend": ["Node.js", "Express.js"],
+  "Database": ["SQLite", "SQL"],
+  "AI": ["Machine Learning", "NLP", "Artificial Intelligence"],
+  "Tools": ["Git", "GitHub", "VS Code"]
+}

@@ -24,5 +24,33 @@
     "Creator"
   ],
 
-  "availability": "Open to internships and software engineering opportunities"
+  "availability": "Open to internships and software engineering opportunities",
+
+  "careerGoal": "To become a skilled Software Engineer and AI Innovator, creating intelligent, scalable, and impactful solutions that solve real-world challenges while continuously learning and contributing to technological advancement.",
+
+  "whySoftwareEngineering": "I love turning ideas into real applications that solve problems and make a positive impact.",
+
+  "whyAI": "AI fascinates me because it enables technology to learn, think, and solve challenges in smarter ways.",
+
+  "motivation": "The challenge of building innovative solutions and continuously pushing my limits inspires me to grow as a developer.",
+
+  "strengths": [
+    "Problem Solving",
+    "Quick Learning",
+    "Creativity",
+    "Adaptability",
+    "Persistence"
+  ],
+
+  "interests": [
+    "Artificial Intelligence",
+    "Software Development",
+    "UI/UX Design",
+    "Problem Solving",
+    "Emerging Technologies"
+  ],
+
+  "favoriteProject": "Sakhi AI",
+
+  "funFact": "I enjoy learning new technologies by building projects rather than just reading about them."
 }

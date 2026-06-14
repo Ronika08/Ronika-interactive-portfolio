@@ -1,0 +1,238 @@
+/* ─── SkillsSection.css ─── */
+/* Obsidian Glass · Electric Cyan · Neon Violet */
+
+/* ── Section wrapper ── */
+.skills-section {
+  position: relative;
+  background: var(--obsidian-mid, #0d0d14);
+  padding: 6rem 1.5rem;
+  overflow: hidden;
+}
+
+/* ambient violet bloom bottom-left */
+.skills-section::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--violet-glow, rgba(180,77,255,0.18)) 0%, transparent 70%);
+  bottom: -180px;
+  left: -160px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ambient cyan bloom top-right */
+.skills-section::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--cyan-glow, rgba(0,229,255,0.12)) 0%, transparent 70%);
+  top: -120px;
+  right: -120px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.skills-section__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+.skills-section__eyebrow {
+  font-family: var(--font-mono, 'Space Mono', monospace);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--violet, #b44dff);
+  margin-bottom: 0.6rem;
+}
+
+.skills-section__title {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 700;
+  color: var(--text-primary, #f0f0ff);
+  letter-spacing: -0.025em;
+  margin: 0 0 3.5rem;
+  line-height: 1.1;
+}
+
+.skills-section__title span {
+  background: linear-gradient(90deg, var(--violet, #b44dff) 0%, var(--cyan, #00e5ff) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Categories grid ── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ── Category card ── */
+.skill-cat-card {
+  background: var(--glass-bg, rgba(18,18,28,0.65));
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.07));
+  border-radius: 20px;
+  padding: 1.75rem 1.75rem 2rem;
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+/* inner shimmer */
+.skill-cat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.035) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* accent glow line at top */
+.skill-cat-card__accent-bar {
+  position: absolute;
+  top: 0;
+  left: 1.75rem;
+  right: 1.75rem;
+  height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: var(--card-accent, var(--cyan, #00e5ff));
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.skill-cat-card:hover .skill-cat-card__accent-bar {
+  opacity: 1;
+}
+
+.skill-cat-card:hover {
+  border-color: var(--card-accent, var(--cyan, #00e5ff));
+  box-shadow:
+    0 0 0 1px var(--card-accent, var(--cyan, #00e5ff)),
+    0 0 28px var(--card-glow, rgba(0,229,255,0.2)),
+    0 8px 36px rgba(0,0,0,0.45);
+}
+
+/* per-category accent tokens */
+.skill-cat-card--programming {
+  --card-accent: var(--cyan, #00e5ff);
+  --card-glow: var(--cyan-glow, rgba(0,229,255,0.25));
+  --chip-bg: rgba(0,229,255,0.08);
+  --chip-border: rgba(0,229,255,0.22);
+  --chip-color: var(--cyan, #00e5ff);
+}
+.skill-cat-card--frontend {
+  --card-accent: #ff6be8;
+  --card-glow: rgba(255,107,232,0.25);
+  --chip-bg: rgba(255,107,232,0.08);
+  --chip-border: rgba(255,107,232,0.22);
+  --chip-color: #ff6be8;
+}
+.skill-cat-card--backend {
+  --card-accent: var(--violet, #b44dff);
+  --card-glow: var(--violet-glow, rgba(180,77,255,0.25));
+  --chip-bg: rgba(180,77,255,0.08);
+  --chip-border: rgba(180,77,255,0.22);
+  --chip-color: var(--violet, #b44dff);
+}
+.skill-cat-card--database {
+  --card-accent: #4dffd2;
+  --card-glow: rgba(77,255,210,0.22);
+  --chip-bg: rgba(77,255,210,0.07);
+  --chip-border: rgba(77,255,210,0.2);
+  --chip-color: #4dffd2;
+}
+.skill-cat-card--ai {
+  --card-accent: #ffd84d;
+  --card-glow: rgba(255,216,77,0.22);
+  --chip-bg: rgba(255,216,77,0.07);
+  --chip-border: rgba(255,216,77,0.2);
+  --chip-color: #ffd84d;
+}
+.skill-cat-card--tools {
+  --card-accent: var(--cyan, #00e5ff);
+  --card-glow: var(--cyan-glow, rgba(0,229,255,0.2));
+  --chip-bg: rgba(0,229,255,0.07);
+  --chip-border: rgba(0,229,255,0.18);
+  --chip-color: var(--cyan, #00e5ff);
+}
+
+/* ── Card header ── */
+.skill-cat-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.skill-cat-card__icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 8px var(--card-glow, rgba(0,229,255,0.3)));
+}
+
+.skill-cat-card__name {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--card-accent, var(--cyan, #00e5ff));
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+/* ── Skill chips ── */
+.skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.skill-chip {
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--chip-border, rgba(0,229,255,0.2));
+  background: var(--chip-bg, rgba(0,229,255,0.07));
+  color: var(--chip-color, var(--cyan, #00e5ff));
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.78rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skill-chip:hover {
+  background: color-mix(in srgb, var(--chip-bg, rgba(0,229,255,0.07)) 200%, transparent);
+  box-shadow: 0 0 10px var(--card-glow, rgba(0,229,255,0.2));
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .skills-section {
+    padding: 4rem 1rem;
+  }
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-cat-card,
+  .skill-chip {
+    transition: none;
+  }
+}

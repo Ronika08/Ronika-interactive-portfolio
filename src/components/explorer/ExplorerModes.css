@@ -1,0 +1,302 @@
+/* ─── ExplorerModes.css ─── */
+/* Obsidian Glass · Electric Cyan · Neon Violet */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap');
+
+/* ── Tokens ── */
+:root {
+  --obsidian-base:   #0a0a0f;
+  --obsidian-mid:    #12121a;
+  --obsidian-glass:  rgba(18, 18, 28, 0.65);
+  --obsidian-border: rgba(255, 255, 255, 0.07);
+
+  --cyan:            #00e5ff;
+  --cyan-dim:        rgba(0, 229, 255, 0.12);
+  --cyan-glow:       rgba(0, 229, 255, 0.35);
+
+  --violet:          #b44dff;
+  --violet-dim:      rgba(180, 77, 255, 0.12);
+  --violet-glow:     rgba(180, 77, 255, 0.35);
+
+  --text-primary:    #f0f0ff;
+  --text-secondary:  rgba(240, 240, 255, 0.55);
+  --text-muted:      rgba(240, 240, 255, 0.35);
+}
+
+/* ── Section wrapper ── */
+.explorer-modes {
+  min-height: 100vh;
+  background: var(--obsidian-base);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ambient radial lights */
+.explorer-modes::before,
+.explorer-modes::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}
+.explorer-modes::before {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--cyan-glow) 0%, transparent 70%);
+  top: -160px;
+  left: -160px;
+  opacity: 0.45;
+}
+.explorer-modes::after {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--violet-glow) 0%, transparent 70%);
+  bottom: -140px;
+  right: -140px;
+  opacity: 0.4;
+}
+
+/* ── Heading ── */
+.explorer-modes__heading {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.02em;
+  position: relative;
+  z-index: 1;
+}
+
+.explorer-modes__heading span {
+  background: linear-gradient(90deg, var(--cyan) 0%, var(--violet) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.explorer-modes__sub {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 3rem;
+  letter-spacing: 0.01em;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Grid ── */
+.explorer-modes__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1080px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Card ── */
+.explorer-card {
+  position: relative;
+  background: var(--obsidian-glass);
+  border: 1px solid var(--obsidian-border);
+  border-radius: 20px;
+  padding: 2rem 1.75rem 2rem;
+  cursor: pointer;
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  overflow: hidden;
+  outline: none;
+  text-align: left;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* inner shimmer stripe */
+.explorer-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.045) 0%,
+    transparent 55%
+  );
+  pointer-events: none;
+}
+
+/* per-card accent variables */
+.explorer-card--curious {
+  --card-accent: var(--cyan);
+  --card-glow:   var(--cyan-glow);
+  --card-dim:    var(--cyan-dim);
+}
+.explorer-card--recruiter {
+  --card-accent: var(--violet);
+  --card-glow:   var(--violet-glow);
+  --card-dim:    var(--violet-dim);
+}
+.explorer-card--challenge {
+  --card-accent: #ff6be8;
+  --card-glow:   rgba(255, 107, 232, 0.35);
+  --card-dim:    rgba(255, 107, 232, 0.1);
+}
+
+/* hover glow border */
+.explorer-card:hover,
+.explorer-card:focus-visible {
+  border-color: var(--card-accent);
+  box-shadow:
+    0 0 0 1px var(--card-accent),
+    0 0 32px var(--card-glow),
+    0 8px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Icon ── */
+.explorer-card__icon {
+  font-size: 2.4rem;
+  line-height: 1;
+  margin-bottom: 1.1rem;
+  display: block;
+  filter: drop-shadow(0 0 10px var(--card-glow));
+}
+
+/* ── Title ── */
+.explorer-card__title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--card-accent);
+  margin: 0 0 0.55rem;
+  letter-spacing: -0.01em;
+}
+
+/* ── Description ── */
+.explorer-card__desc {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin: 0 0 1.4rem;
+}
+
+/* ── Divider ── */
+.explorer-card__divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--card-accent), transparent);
+  opacity: 0.25;
+  margin-bottom: 1.2rem;
+  border: none;
+}
+
+/* ── Sections list ── */
+.explorer-card__sections-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 0.65rem;
+}
+
+.explorer-card__sections {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.explorer-card__section-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  padding: 0.3rem 0.55rem;
+  border-radius: 8px;
+  background: var(--card-dim);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.explorer-card__section-item::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--card-accent);
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.explorer-card:hover .explorer-card__section-item {
+  color: var(--text-primary);
+}
+
+/* ── Select CTA strip ── */
+.explorer-card__cta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--card-accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.explorer-card__cta svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.explorer-card:hover .explorer-card__cta,
+.explorer-card:focus-visible .explorer-card__cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.explorer-card:hover .explorer-card__cta svg {
+  transform: translateX(3px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .explorer-modes__grid {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+  }
+}
+
+@media (max-width: 480px) {
+  .explorer-modes {
+    padding: 3rem 1rem;
+  }
+  .explorer-card {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .explorer-card,
+  .explorer-card__cta,
+  .explorer-card__section-item {
+    transition: none;
+  }
+}

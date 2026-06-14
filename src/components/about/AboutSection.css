@@ -1,0 +1,241 @@
+/* ─── AboutSection.css ─── */
+/* Obsidian Glass · Electric Cyan · Neon Violet */
+
+/* ── Section wrapper ── */
+.about-section {
+  position: relative;
+  background: var(--obsidian-base, #0a0a0f);
+  padding: 6rem 1.5rem;
+  overflow: hidden;
+}
+
+.about-section::before {
+  content: '';
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--cyan-glow, rgba(0,229,255,0.18)) 0%, transparent 70%);
+  top: -200px;
+  right: -200px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.about-section__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ── Section header ── */
+.about-section__eyebrow {
+  font-family: var(--font-mono, 'Space Mono', monospace);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan, #00e5ff);
+  margin-bottom: 0.6rem;
+}
+
+.about-section__title {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 700;
+  color: var(--text-primary, #f0f0ff);
+  letter-spacing: -0.025em;
+  margin: 0 0 3.5rem;
+  line-height: 1.1;
+}
+
+.about-section__title span {
+  background: linear-gradient(90deg, var(--cyan, #00e5ff) 0%, var(--violet, #b44dff) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Blocks ── */
+.about-block {
+  margin-bottom: 3.5rem;
+}
+
+.about-block__label {
+  font-family: var(--font-mono, 'Space Mono', monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--violet, #b44dff);
+  margin-bottom: 1.1rem;
+}
+
+/* ── Profile card (Who is Ronika) ── */
+.about-profile-card {
+  background: var(--glass-bg, rgba(18,18,28,0.65));
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.07));
+  border-radius: 20px;
+  padding: 2rem 2.25rem;
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  position: relative;
+  overflow: hidden;
+}
+
+.about-profile-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.about-profile__summary {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-secondary, rgba(240,240,255,0.7));
+  margin-bottom: 1.5rem;
+}
+
+.about-profile__goal {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--text-secondary, rgba(240,240,255,0.65));
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--cyan, #00e5ff);
+}
+
+.about-profile__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.about-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.1));
+  background: rgba(0,229,255,0.07);
+  font-size: 0.8rem;
+  color: var(--cyan, #00e5ff);
+  font-family: var(--font-body, 'Inter', sans-serif);
+}
+
+.about-meta-chip__icon {
+  font-size: 0.9rem;
+}
+
+/* ── Narrative blocks (Why SE, Why AI, Motivation) ── */
+.about-narrative {
+  background: var(--glass-bg, rgba(18,18,28,0.55));
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.07));
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.925rem;
+  line-height: 1.75;
+  color: var(--text-secondary, rgba(240,240,255,0.68));
+}
+
+/* ── Strengths grid ── */
+.about-strengths-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.about-strength-card {
+  background: var(--glass-bg, rgba(18,18,28,0.65));
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.07));
+  border-radius: 16px;
+  padding: 1.25rem 1.4rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.875rem;
+  color: var(--text-primary, #f0f0ff);
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-strength-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(0,229,255,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.about-strength-card:hover {
+  border-color: var(--cyan, #00e5ff);
+  box-shadow: 0 0 22px var(--cyan-glow, rgba(0,229,255,0.25));
+}
+
+.about-strength-card__dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan, #00e5ff);
+  margin-right: 0.55rem;
+  vertical-align: middle;
+  box-shadow: 0 0 6px var(--cyan, #00e5ff);
+}
+
+/* ── Interests tags ── */
+.about-interests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.about-interest-tag {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(180,77,255,0.35);
+  background: rgba(180,77,255,0.09);
+  font-size: 0.82rem;
+  color: var(--violet, #b44dff);
+  font-family: var(--font-body, 'Inter', sans-serif);
+  transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  cursor: default;
+}
+
+.about-interest-tag:hover {
+  background: rgba(180,77,255,0.18);
+  border-color: var(--violet, #b44dff);
+  box-shadow: 0 0 14px rgba(180,77,255,0.3);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .about-section {
+    padding: 4rem 1rem;
+  }
+  .about-profile-card {
+    padding: 1.5rem 1.25rem;
+  }
+  .about-narrative {
+    padding: 1.25rem 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-strength-card,
+  .about-interest-tag {
+    transition: none;
+  }
+}

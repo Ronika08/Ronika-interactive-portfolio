@@ -1,0 +1,428 @@
+[
+  {
+    "id": "sakhi-ai",
+    "title": "Sakhi AI",
+    "tagline": "Voice-first AI companion for rural women's health & safety",
+    "category": "AI / Social Impact",
+    "status": "Live",
+    "shortDescription": "A multilingual, voice-first AI assistant designed to empower rural women with accessible health information, safety guidance, and emergency support — without requiring literacy or internet connectivity.",
+    "problemStatement": "Over 600 million rural women in India lack access to trusted health information and safety resources. Low literacy rates, language barriers, and limited smartphone proficiency make existing digital solutions unreachable. In crisis moments, there is no accessible, judgment-free system to turn to.",
+    "solution": "Sakhi AI is a voice-first conversational agent supporting 8 Indian languages, powered by a fine-tuned LLM trained on verified health and safety datasets. It operates on low-bandwidth connections, uses IVR fallback for feature phones, and routes emergency situations to local NGO networks automatically.",
+    "impact": "Reached 12,000+ women across 3 states in pilot. Reduced average time-to-health-information from 4 days (nearest clinic) to under 60 seconds. 94% user satisfaction in post-session surveys. Partnered with 6 NGOs for emergency response routing.",
+    "architecture": "React Native frontend → FastAPI backend → LangChain orchestration layer → Fine-tuned Llama 3 (LoRA) → Whisper STT → Google TTS → PostgreSQL + pgvector for RAG → Twilio for IVR fallback → AWS Lambda for serverless scaling.",
+    "features": [
+      "Voice interaction in 8 Indian languages with dialect awareness",
+      "Offline-capable PWA with sync when connectivity restores",
+      "Emergency SOS with GPS-based NGO routing",
+      "Anonymized health Q&A with verified medical knowledge base",
+      "IVR fallback for feature phone users",
+      "Conversation history with privacy-first local storage",
+      "Admin dashboard for NGO partners to monitor escalations"
+    ],
+    "techStack": ["Python", "FastAPI", "LangChain", "Llama 3", "Whisper", "React Native", "PostgreSQL", "pgvector", "Twilio", "AWS Lambda", "Docker"],
+    "challenges": [
+      "Achieving reliable STT accuracy across 8 language variants with limited training data",
+      "Designing UX for users with zero prior smartphone experience",
+      "Ensuring sub-2s response latency on 2G connections",
+      "Handling sensitive mental health and domestic violence queries safely"
+    ],
+    "lessonsLearned": [
+      "Voice UX requires completely different design principles than text — silence handling and confirmation loops are critical",
+      "Fine-tuning on domain-specific data outperforms general models even at 7B parameter scale",
+      "Safety guardrails must be context-aware, not keyword-based, to avoid blocking genuine help-seeking",
+      "Partnering with NGOs from day one shapes product decisions far more than any user interview"
+    ],
+    "github": "https://github.com",
+    "liveDemo": "https://demo.example.com",
+    "screenshots": [],
+    "demoVideo": ""
+  },
+  {
+    "id": "production-rag-system",
+    "title": "Production RAG System",
+    "tagline": "Enterprise-grade retrieval-augmented generation at 10,000 RPM",
+    "category": "AI / Backend",
+    "status": "Live",
+    "shortDescription": "A horizontally scalable RAG pipeline serving enterprise document Q&A with hybrid dense-sparse retrieval, query routing, and sub-200ms p95 latency — handling millions of documents across multi-tenant deployments.",
+    "problemStatement": "Enterprise teams drowning in internal documentation (PDFs, Confluence, Notion, SharePoint) struggle to surface the right information at the right time. Existing RAG implementations hit quality ceilings at scale due to naive chunking, no query understanding, and single-vector retrieval.",
+    "solution": "A production RAG system with semantic chunking, hybrid BM25 + dense retrieval, HyDE query expansion, multi-hop reasoning chains, and an evaluation harness measuring faithfulness and relevance automatically. Built for multi-tenant SaaS deployment with per-org vector namespaces.",
+    "impact": "Deployed at 3 enterprise clients. Reduced average document search time by 78%. Answer faithfulness score of 0.91 on internal RAGAS benchmark. Processing 10,000+ queries/day with 99.7% uptime. Ingests 500 new documents per hour without degradation.",
+    "architecture": "FastAPI ingestion API → Document parsers (PyMuPDF, Unstructured) → Semantic chunker → Dual embedding (OpenAI + BGE-M3) → Qdrant (dense) + Elasticsearch (BM25) → Reciprocal Rank Fusion → HyDE expansion → GPT-4o generation → RAGAS evaluation loop → Redis cache → Celery async workers.",
+    "features": [
+      "Semantic chunking with overlap and section-awareness",
+      "Hybrid retrieval with reciprocal rank fusion",
+      "HyDE (Hypothetical Document Embeddings) query expansion",
+      "Multi-hop reasoning for complex multi-document queries",
+      "Automatic RAGAS evaluation on every deployment",
+      "Multi-tenant vector namespace isolation",
+      "Real-time ingestion pipeline with webhook triggers",
+      "Citation tracking with source highlighting"
+    ],
+    "techStack": ["Python", "FastAPI", "LangChain", "OpenAI", "Qdrant", "Elasticsearch", "Redis", "Celery", "PostgreSQL", "Docker", "Kubernetes", "RAGAS"],
+    "challenges": [
+      "Chunking strategy that preserves semantic coherence across table-heavy PDFs",
+      "Merging dense and sparse retrieval scores without score normalization artifacts",
+      "Isolating multi-tenant data in a shared Qdrant cluster efficiently",
+      "Building an evaluation loop that runs fast enough to be part of CI/CD"
+    ],
+    "lessonsLearned": [
+      "Chunking quality accounts for more variance in RAG performance than model choice",
+      "HyDE improves recall by ~15% on knowledge-heavy queries but hurts precision on factual lookups — routing matters",
+      "RAGAS metrics can be gamed — complement with human eval spot checks",
+      "Redis cache at the query layer reduces LLM costs by 40% with minimal quality trade-off"
+    ],
+    "github": "https://github.com",
+    "liveDemo": "",
+    "screenshots": [],
+    "demoVideo": ""
+  },
+  {
+    "id": "hallucination-detection",
+    "title": "Hallucination Detection System",
+    "tagline": "Real-time LLM output verification with 96% precision",
+    "category": "AI / MLOps",
+    "status": "Live",
+    "shortDescription": "An automated pipeline that detects, classifies, and flags hallucinations in LLM outputs using claim decomposition, NLI verification, and knowledge-grounded entailment checking — deployed as a middleware layer for production AI systems.",
+    "problemStatement": "LLMs confidently generate factually incorrect information, making them unsafe for high-stakes domains like healthcare, legal, and finance. Manual review doesn't scale. Existing detection methods rely on simple similarity scores that miss subtle fabrications.",
+    "solution": "A claim decomposition pipeline that breaks LLM responses into atomic facts, verifies each against retrieved source documents using an NLI model, and returns a hallucination score with per-claim attribution. Integrates as a middleware interceptor with sub-100ms overhead.",
+    "impact": "96% precision and 89% recall on HaluEval benchmark. Reduced customer-reported factual errors by 71% in pilot deployment. Processes 50,000 responses/day in production. Saved one enterprise client from a compliance incident by flagging fabricated regulatory citations.",
+    "architecture": "LLM output → Claim decomposer (GPT-4o) → Retrieval module (Qdrant) → NLI verifier (DeBERTa-v3) → Entailment scorer → Aggregator → Hallucination report with confidence → Middleware response interceptor → Monitoring dashboard.",
+    "features": [
+      "Atomic claim decomposition from free-form LLM text",
+      "Per-claim source retrieval and NLI verification",
+      "Hallucination classification: fabrication, exaggeration, contradiction",
+      "Confidence-calibrated output scores",
+      "Middleware SDK for Python and Node.js",
+      "Real-time dashboard with hallucination trend analytics",
+      "Batch mode for post-hoc evaluation of historical outputs"
+    ],
+    "techStack": ["Python", "FastAPI", "DeBERTa-v3", "OpenAI", "Qdrant", "HuggingFace Transformers", "Redis", "PostgreSQL", "Grafana", "Docker"],
+    "challenges": [
+      "Decomposing compound claims without losing context or creating false negatives",
+      "Fine-tuning NLI model on domain-specific hallucination patterns",
+      "Keeping end-to-end latency under 100ms for real-time interception",
+      "Handling partial hallucinations where only part of a claim is fabricated"
+    ],
+    "lessonsLearned": [
+      "Claim granularity is the single most important hyperparameter — too coarse misses fabrications, too fine creates noise",
+      "NLI models trained on MNLI transfer poorly to conversational LLM outputs — domain adaptation is essential",
+      "Hallucination rates are highly model and prompt-template specific — detection systems must be re-calibrated per deployment",
+      "Attribution (which source contradicts which claim) is more valuable to users than a single aggregate score"
+    ],
+    "github": "https://github.com",
+    "liveDemo": "",
+    "screenshots": [],
+    "demoVideo": ""
+  },
+  {
+    "id": "disaster-relief-portal",
+    "title": "Disaster Relief Portal",
+    "tagline": "Real-time resource coordination for emergency response teams",
+    "category": "Full Stack / Social Impact",
+    "status": "Live",
+    "shortDescription": "A real-time coordination platform enabling disaster relief organizations to track resource needs, volunteer deployment, and supply logistics — with offline-first architecture for operation in connectivity-degraded disaster zones.",
+    "problemStatement": "During disaster response, coordination between NGOs, government agencies, and volunteers breaks down due to fragmented communication, no shared resource visibility, and systems that fail when internet infrastructure is damaged.",
+    "solution": "A PWA with offline-first architecture using Service Workers and CRDTs for conflict-free data sync, real-time WebSocket updates when connected, and a map-based resource visualization layer. Supports 20+ concurrent organizations with role-based access.",
+    "impact": "Deployed in 2 flood relief operations in India. Coordinated 3,200 volunteers and ₹4.2 crore in supplies. Reduced resource duplication by 60%. Operated reliably at 30% packet loss. Adopted by 4 state-level disaster management authorities for future preparedness.",
+    "architecture": "React PWA (offline-first) → Service Worker + IndexedDB → WebSocket server (Node.js) → CRDT sync layer (Yjs) → PostgreSQL + PostGIS → Redis Pub/Sub → Mapbox GL → Docker on DigitalOcean → Cloudflare CDN.",
+    "features": [
+      "Offline-first with automatic conflict-free sync using CRDTs",
+      "Real-time map of resource needs, supply depots, and volunteer positions",
+      "Role-based access for NGOs, government, volunteers, and donors",
+      "Resource request and fulfillment workflow with status tracking",
+      "SMS broadcast to volunteers via Twilio for offline coordination",
+      "Supply chain tracker from donation to delivery",
+      "Analytics dashboard for post-disaster reporting"
+    ],
+    "techStack": ["React", "Node.js", "PostgreSQL", "PostGIS", "WebSockets", "Yjs", "Service Workers", "IndexedDB", "Mapbox GL", "Redis", "Twilio", "Docker"],
+    "challenges": [
+      "Implementing CRDT-based sync that works correctly with geospatial data types",
+      "Designing UX that works for non-technical government officials under stress",
+      "Managing WebSocket connections at scale with unreliable mobile networks",
+      "Ensuring data consistency when devices re-sync after multi-day offline periods"
+    ],
+    "lessonsLearned": [
+      "Offline-first is not a feature — it is an architectural decision that must be made on day one",
+      "CRDTs solve sync conflicts elegantly but require domain-specific merge strategies for structured data",
+      "Government stakeholder buy-in requires demonstrating reliability under adversarial network conditions, not just happy paths",
+      "Map-based UIs dramatically reduce cognitive load during crisis coordination compared to tables and lists"
+    ],
+    "github": "https://github.com",
+    "liveDemo": "https://demo.example.com",
+    "screenshots": [],
+    "demoVideo": ""
+  },
+  {
+    "id": "github-analytics-tool",
+    "title": "GitHub Analytics Tool",
+    "tagline": "Deep developer productivity intelligence from GitHub data",
+    "category": "Full Stack / DevTools",
+    "status": "Live",
+    "shortDescription": "A developer analytics platform that ingests GitHub activity across repositories and organizations, surfaces productivity patterns, code quality trends, and collaboration graphs — with GPT-4o-powered natural language querying.",
+    "problemStatement": "Engineering managers lack objective, data-driven insight into team productivity, code quality trends, and collaboration patterns. Manual analysis of GitHub data is time-consuming and prone to survivorship bias.",
+    "solution": "An ETL pipeline that ingests GitHub events via webhooks and REST API, stores enriched data in a time-series-optimized schema, and exposes a React dashboard with drill-down analytics and a natural language query interface powered by text-to-SQL.",
+    "impact": "Used by 15+ engineering teams. Identified two recurring code quality regression patterns that saved an estimated 200 engineering hours/month. NLP query accuracy of 87% on internal benchmark. Reduced sprint retrospective prep time from 3 hours to 20 minutes.",
+    "architecture": "GitHub Webhooks → FastAPI ingestor → Celery ETL workers → PostgreSQL (TimescaleDB) → Redis cache → FastAPI analytics API → Text-to-SQL (GPT-4o + LangChain) → React + Recharts dashboard → Auth0.",
+    "features": [
+      "Real-time ingestion of commits, PRs, reviews, and issues",
+      "Developer contribution heatmaps and streak analytics",
+      "PR cycle time and review lag tracking",
+      "Code churn and complexity trend analysis",
+      "Collaboration graph showing cross-team dependencies",
+      "Natural language querying with text-to-SQL",
+      "Customizable team and project groupings",
+      "Slack digest with weekly team summaries"
+    ],
+    "techStack": ["Python", "FastAPI", "PostgreSQL", "TimescaleDB", "React", "Recharts", "LangChain", "OpenAI", "Redis", "Celery", "Auth0", "Docker"],
+    "challenges": [
+      "Handling GitHub API rate limits during historical backfill of large organizations",
+      "Designing metrics that are meaningful without incentivizing gaming",
+      "Building text-to-SQL that handles ambiguous natural language across varied schema aliases",
+      "TimescaleDB hypertable partitioning strategy for multi-tenant time-series data"
+    ],
+    "lessonsLearned": [
+      "Productivity metrics must be framed as team health indicators, not individual performance scorecards, to gain adoption",
+      "Text-to-SQL quality is highly dependent on schema naming conventions — self-documenting schema design is worth the upfront investment",
+      "TimescaleDB continuous aggregates reduce dashboard query latency by 10x for time-range analytics",
+      "Webhook-based ingestion misses historical events — combining with scheduled REST backfill is necessary for completeness"
+    ],
+    "github": "https://github.com",
+    "liveDemo": "https://demo.example.com",
+    "screenshots": [],
+    "demoVideo": ""
+  },
+  {
+    "id": "monitoring-dashboard",
+    "title": "Monitoring Dashboard",
+    "tagline": "Full-stack observability with anomaly detection and smart alerting",
+    "category": "DevOps / Backend",
+    "status": "Live",
+    "shortDescription": "A self-hosted observability platform combining metrics, logs, and traces into a unified dashboard with ML-based anomaly detection, intelligent alert deduplication, and on-call routing — built as a lightweight alternative to expensive SaaS observability tools.",
+    "problemStatement": "Small engineering teams can't afford Datadog or New Relic at scale. Open-source alternatives like Grafana require significant setup expertise and lack built-in anomaly detection. Alert fatigue from threshold-based systems causes real incidents to be missed.",
+    "solution": "A unified observability stack with a custom metrics ingestor, structured log aggregation, distributed trace correlation, and an ML anomaly detector (Isolation Forest + ARIMA) that learns baseline patterns and fires alerts only on genuine anomalies — reducing false positives by 80%.",
+    "impact": "Deployed at 8 companies as self-hosted infrastructure. Detected 3 production incidents before user impact through anomaly detection. Reduced alert volume by 83% vs threshold-based alerting. Total infrastructure cost: $45/month vs $2,000+/month for equivalent SaaS tooling.",
+    "architecture": "Prometheus-compatible metrics ingestor → ClickHouse (metrics + logs) → Jaeger (traces) → Python anomaly detection service (Isolation Forest + ARIMA) → FastAPI query layer → React + D3.js dashboard → PagerDuty / Slack / webhook alerting → Docker Compose deployment.",
+    "features": [
+      "Prometheus-compatible metrics ingestion",
+      "Structured log aggregation with full-text search",
+      "Distributed trace visualization with flame graphs",
+      "ML-based anomaly detection with automatic baseline learning",
+      "Intelligent alert deduplication and correlation",
+      "On-call schedule management with escalation policies",
+      "Service dependency maps auto-generated from traces",
+      "One-command Docker Compose deployment"
+    ],
+    "techStack": ["Python", "FastAPI", "ClickHouse", "Jaeger", "Prometheus", "React", "D3.js", "scikit-learn", "Redis", "PostgreSQL", "Docker", "Grafana"],
+    "challenges": [
+      "Designing a metrics ingestor that is wire-compatible with Prometheus exporters",
+      "Tuning Isolation Forest for seasonal time-series without overfitting to normal traffic spikes",
+      "Correlating logs, metrics, and traces across microservices without a shared trace ID standard",
+      "Keeping ClickHouse write throughput stable under bursty ingest from many simultaneous services"
+    ],
+    "lessonsLearned": [
+      "ClickHouse's columnar compression and vectorized execution make it dramatically better than PostgreSQL for time-series aggregations",
+      "Anomaly detection in production requires seasonality modeling — a pure Isolation Forest flags every Monday morning surge",
+      "Alert routing logic is where the most engineering time gets spent post-launch — invest in a flexible rule engine early",
+      "Self-hosted tooling adoption rises dramatically when the install experience is a single command"
+    ],
+    "github": "https://github.com",
+    "liveDemo": "",
+    "screenshots": [],
+    "demoVideo": ""
+  },
+  {
+    "id": "saas-application",
+    "title": "SaaS Application",
+    "tagline": "Multi-tenant B2B SaaS with billing, auth, and team management",
+    "category": "Full Stack / SaaS",
+    "status": "Live",
+    "shortDescription": "A production-ready multi-tenant SaaS boilerplate and application featuring Stripe billing with usage-based pricing, SSO via SAML, team management, feature flags, and a complete admin console — built to enterprise security standards.",
+    "problemStatement": "Building a B2B SaaS from scratch means reinventing the same infrastructure every time: auth, billing, multi-tenancy, audit logging, feature flags, team management. This plumbing consumes months of engineering time before any differentiating product work can begin.",
+    "solution": "A complete SaaS application with a battle-tested multi-tenant architecture, Stripe Billing integration for subscription and usage-based pricing, Auth0 SSO with SAML/OIDC, row-level security in PostgreSQL, feature flags, audit logging, and an admin console — all production-hardened.",
+    "impact": "Serves as foundation for 3 commercial products. Reduced time-to-first-paying-customer from estimated 6 months to 6 weeks. Handles 50,000 API requests/day across tenants. Passed SOC 2 readiness assessment with no critical findings. Stripe integration processing $50K+ MRR.",
+    "architecture": "React + TypeScript frontend → Next.js API routes → PostgreSQL with row-level security → Auth0 (SAML/OIDC) → Stripe Billing (webhooks) → LaunchDarkly feature flags → Redis sessions → Resend transactional email → AWS ECS → CloudFront CDN → Datadog.",
+    "features": [
+      "Multi-tenant architecture with PostgreSQL row-level security",
+      "Stripe Billing: subscription, usage-based, and seat-based pricing",
+      "SSO via SAML 2.0 and OIDC with Auth0",
+      "Team management with role-based permissions",
+      "Feature flags with per-tenant and per-user overrides",
+      "Complete audit log with immutable event history",
+      "Admin console for support and operations teams",
+      "Transactional email with Resend and template management"
+    ],
+    "techStack": ["React", "TypeScript", "Next.js", "PostgreSQL", "Auth0", "Stripe", "Redis", "LaunchDarkly", "Resend", "AWS ECS", "CloudFront", "Datadog"],
+    "challenges": [
+      "Designing row-level security policies that are both secure and performant at scale",
+      "Handling Stripe webhook idempotency to prevent duplicate subscription state changes",
+      "SAML SSO implementation with certificate rotation without downtime",
+      "Feature flag evaluation performance at request time without adding latency"
+    ],
+    "lessonsLearned": [
+      "PostgreSQL row-level security is powerful but requires careful index design — unindexed tenant_id columns make it catastrophically slow",
+      "Stripe webhook handling must be idempotent from day one — replays happen constantly in production",
+      "SAML is significantly more complex than OIDC and should only be prioritized when enterprise customers explicitly require it",
+      "Audit logging must be append-only and immutable from the beginning — retrofitting this is painful"
+    ],
+    "github": "https://github.com",
+    "liveDemo": "https://demo.example.com",
+    "screenshots": [],
+    "demoVideo": ""
+  },
+  {
+    "id": "mini-database-engine",
+    "title": "Mini Database Engine",
+    "tagline": "A relational database built from scratch in Python",
+    "category": "Systems / CS Fundamentals",
+    "status": "Completed",
+    "shortDescription": "A from-scratch implementation of a relational database engine supporting SQL parsing, B-tree indexing, a buffer pool manager, ACID transactions with WAL, and a query planner — built to deeply understand how databases actually work.",
+    "problemStatement": "Most developers use databases as black boxes. Building one from scratch is the definitive way to understand query optimization, storage internals, concurrency control, and crash recovery — knowledge that makes you a dramatically better database user and system designer.",
+    "solution": "A Python implementation of a relational database engine with a hand-written SQL parser, B-tree index structures, a buffer pool with LRU eviction, a write-ahead log for crash recovery, snapshot isolation for ACID transactions, and a cost-based query planner with join ordering.",
+    "impact": "Achieved 85% of SQLite performance on TPC-C benchmark subset. Passes ACID correctness test suite. Supports SELECT, INSERT, UPDATE, DELETE, JOIN, GROUP BY, ORDER BY, and index-based scans. Used as teaching material for 3 university database courses.",
+    "architecture": "SQL Parser (recursive descent) → AST → Query Planner (cost-based, statistics-driven) → Execution Engine → Buffer Pool Manager (LRU) → B-tree Storage Engine → Write-Ahead Log → Crash Recovery Module → File-based storage pages.",
+    "features": [
+      "Hand-written recursive descent SQL parser",
+      "B-tree index with split/merge and range scan support",
+      "Buffer pool manager with LRU eviction policy",
+      "Write-ahead logging for crash recovery",
+      "Snapshot isolation (MVCC) for ACID transactions",
+      "Cost-based query planner with join ordering",
+      "Simple SQL shell for interactive querying",
+      "Full ACID correctness test suite"
+    ],
+    "techStack": ["Python", "C (storage layer)", "pytest", "struct (binary serialization)"],
+    "challenges": [
+      "Implementing B-tree split propagation correctly for concurrent reads",
+      "Designing WAL format that supports both redo and undo operations efficiently",
+      "Building a cost estimator without real statistics collection infrastructure",
+      "Handling page boundary edge cases in variable-length record storage"
+    ],
+    "lessonsLearned": [
+      "B-tree rebalancing is conceptually simple but edge cases (root splits, cascading splits) require exhaustive testing",
+      "WAL is the most elegant crash recovery mechanism — redo on recovery is far simpler to reason about than shadow paging",
+      "MVCC implementation requires careful thought about transaction ID wraparound from the start",
+      "Query planner cost models are wildly inaccurate without real data statistics — histogram collection matters enormously"
+    ],
+    "github": "https://github.com",
+    "liveDemo": "",
+    "screenshots": [],
+    "demoVideo": ""
+  },
+  {
+    "id": "file-system-simulator",
+    "title": "File System Simulator",
+    "tagline": "A virtual ext2-style filesystem implemented in user space",
+    "category": "Systems / CS Fundamentals",
+    "status": "Completed",
+    "shortDescription": "A user-space implementation of an ext2-inspired filesystem with inodes, directory trees, block allocation, journaling, and a FUSE interface — enabling real file operations on a virtual disk image from any Linux application.",
+    "problemStatement": "Understanding how filesystems work at the inode, block, and journal level is foundational systems knowledge that most developers never acquire. Implementing one in user space makes these concepts tangible and directly testable.",
+    "solution": "A virtual filesystem stored in a single binary disk image, with an inode table, block group descriptors, a bitmap-based allocator, directory entry structures, a journal for crash consistency, and a FUSE binding that exposes the filesystem to any POSIX application.",
+    "impact": "Passes POSIX filesystem correctness tests (fstest suite). Successfully mounted and used by standard Linux tools (cp, ls, vim, git init). Journaling survives simulated crash injection in 100% of test cases. Used as a reference implementation in an OS course.",
+    "architecture": "FUSE VFS interface → VFS translation layer → Inode manager → Directory entry handler → Block allocator (bitmap) → Extent tree for large files → Journal (ordered mode) → Block I/O layer → Disk image (binary file).",
+    "features": [
+      "Inode-based file metadata with timestamps and permissions",
+      "Hierarchical directory structure with hard and soft links",
+      "Bitmap-based block and inode allocation",
+      "Extent tree for efficient large file block mapping",
+      "Ordered journaling for crash consistency",
+      "FUSE binding for POSIX-compatible mount",
+      "Crash injection testing harness",
+      "fsck-equivalent integrity checker"
+    ],
+    "techStack": ["C", "Python", "FUSE", "pytest", "Linux kernel VFS", "struct"],
+    "challenges": [
+      "Implementing correct inode reference counting for hard links across directory operations",
+      "Designing the journal transaction boundaries correctly for rename (which touches multiple directory blocks)",
+      "FUSE performance overhead from user-kernel boundary crossings on metadata-heavy workloads",
+      "Block fragmentation over simulated long-term usage without a defragmenter"
+    ],
+    "lessonsLearned": [
+      "Filesystem correctness requires exhaustive edge case testing — the rename syscall alone has 11 distinct cases",
+      "FUSE simplifies development dramatically at the cost of performance — the user-kernel round trip is expensive",
+      "Journaling ordered mode (only metadata journaled, data written first) is the right default tradeoff for most workloads",
+      "Bitmap allocators are simple but fragment quickly — understanding when to implement extent-based allocation was a key insight"
+    ],
+    "github": "https://github.com",
+    "liveDemo": "",
+    "screenshots": [],
+    "demoVideo": ""
+  },
+  {
+    "id": "url-caching-system",
+    "title": "URL Caching System",
+    "tagline": "High-throughput distributed URL cache with intelligent invalidation",
+    "category": "Systems / Backend",
+    "status": "Completed",
+    "shortDescription": "A distributed caching layer for URL resolution and web content, featuring consistent hashing for node distribution, TTL-based and event-driven cache invalidation, a bloom filter for negative lookups, and a Redis-compatible wire protocol.",
+    "problemStatement": "URL shorteners, web crawlers, and CDN edge nodes all need a caching layer that handles millions of key lookups per second with low latency, consistent distribution across nodes, and intelligent invalidation — without the overhead of a general-purpose distributed cache.",
+    "solution": "A purpose-built URL caching system with a consistent hashing ring for distributed key assignment, a two-tier cache (in-memory LRU + persistent Redis), a bloom filter to avoid disk lookups for cache misses, TTL expiry, and a webhook-based invalidation API.",
+    "impact": "Benchmarks at 450,000 cache reads/second on a single node. P99 read latency of 0.8ms. Bloom filter reduces unnecessary Redis lookups by 92%. Successfully handles 10M+ cached URLs in testing. Consistent hashing rebalances correctly when nodes are added or removed.",
+    "architecture": "Redis-compatible client protocol → Connection pool → Consistent hashing router → In-memory LRU cache (tier 1) → Redis cluster (tier 2) → Bloom filter (negative lookup) → TTL expiry daemon → Event-driven invalidation webhooks → Prometheus metrics.",
+    "features": [
+      "Consistent hashing ring with virtual nodes for even key distribution",
+      "Two-tier cache: in-memory LRU + Redis persistent layer",
+      "Bloom filter for O(1) negative cache miss detection",
+      "TTL-based automatic expiry with configurable granularity",
+      "Webhook-based cache invalidation for event-driven updates",
+      "Redis-compatible protocol for drop-in compatibility",
+      "Prometheus metrics endpoint",
+      "Graceful node addition and removal with key rebalancing"
+    ],
+    "techStack": ["Python", "Redis", "asyncio", "aiohttp", "mmh3 (hashing)", "bitarray (bloom filter)", "Prometheus", "Docker"],
+    "challenges": [
+      "Tuning consistent hashing virtual node count to balance load without excessive memory overhead",
+      "Bloom filter false positive rate calibration for the URL namespace size",
+      "Race conditions in two-tier cache promotion when the same key is requested concurrently",
+      "Protocol-level compatibility with the Redis client ecosystem"
+    ],
+    "lessonsLearned": [
+      "Consistent hashing's virtual node count is a critical tuning parameter — too few causes uneven load, too many wastes memory",
+      "Bloom filters are most valuable when the false positive rate is tuned to the expected cache hit ratio of the workload",
+      "Two-tier caches require careful write-through vs write-back strategy selection — write-back is faster but risks data loss",
+      "Redis wire protocol compatibility is surprisingly achievable and dramatically expands the ecosystem of usable clients"
+    ],
+    "github": "https://github.com",
+    "liveDemo": "",
+    "screenshots": [],
+    "demoVideo": ""
+  },
+  {
+    "id": "custom-data-structure-library",
+    "title": "Custom Data Structure Library",
+    "tagline": "Production-grade data structures with benchmarks and formal proofs",
+    "category": "Systems / CS Fundamentals",
+    "status": "Completed",
+    "shortDescription": "A from-scratch implementation of 25+ advanced data structures in Python and C++, each with formal complexity analysis, randomized testing, benchmark comparisons against standard library equivalents, and documented design trade-offs.",
+    "problemStatement": "Standard library data structures are optimized for general use but suboptimal for specific access patterns. Deeply understanding their internals — and building alternatives — is what separates engineers who choose the right tool from engineers who reach for the default.",
+    "solution": "A library of 25+ data structures including skip lists, van Emde Boas trees, Fibonacci heaps, splay trees, persistent data structures, a lock-free ring buffer, and a cache-oblivious B-tree — each with randomized correctness tests, Big-O proof sketches, and micro-benchmarks.",
+    "impact": "Van Emde Boas tree outperforms Python's sorted set by 3.2x on integer range queries. Cache-oblivious B-tree shows 40% better cache performance than standard B-tree on large datasets. Library used as reference by 200+ GitHub stars. Cited in 2 university course syllabi.",
+    "architecture": "Each data structure is a standalone module with: interface definition → implementation (Python + C++ where performance-critical) → property-based randomized tests (Hypothesis) → benchmark harness (pytest-benchmark) → complexity analysis documentation.",
+    "features": [
+      "Skip List with O(log n) expected operations",
+      "Van Emde Boas Tree for O(log log U) integer operations",
+      "Fibonacci Heap with O(1) amortized decrease-key",
+      "Splay Tree with amortized O(log n) and working-set property",
+      "Persistent Red-Black Tree with path copying",
+      "Lock-free SPSC Ring Buffer using memory ordering",
+      "Cache-oblivious B-Tree with optimal cache performance",
+      "Treap, Leftist Heap, Pairing Heap, and 17 more structures"
+    ],
+    "techStack": ["Python", "C++", "Hypothesis (property testing)", "pytest-benchmark", "pybind11", "Valgrind", "perf"],
+    "challenges": [
+      "Implementing Fibonacci heap decrease-key without introducing subtle heap-order violations",
+      "Designing persistent data structures that share structure efficiently without GC pressure",
+      "Writing lock-free data structures that are correct under all memory ordering relaxations",
+      "Benchmarking cache effects in a way that survives CPU frequency scaling and branch predictor warmup"
+    ],
+    "lessonsLearned": [
+      "Theoretical complexity and practical performance diverge significantly at small N — constant factors dominate",
+      "Property-based testing with Hypothesis finds bugs in data structure invariants that unit tests miss entirely",
+      "Lock-free programming requires reasoning about all possible interleavings — model checking tools are invaluable",
+      "Cache-oblivious algorithms are elegant in theory but their advantage only manifests on datasets larger than L3 cache"
+    ],
+    "github": "https://github.com",
+    "liveDemo": "",
+    "screenshots": [],
+    "demoVideo": ""
+  }
+]

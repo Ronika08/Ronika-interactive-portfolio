@@ -4,6 +4,7 @@ import LandingPage from "./components/landing/LandingPage";
 import ExplorerModes from "./components/explorer/ExplorerModes";
 import AboutSection from "./components/about/AboutSection";
 import SkillsSection from "./components/skills/SkillsSection";
+import ProjectsSection from "./components/projects/ProjectsSection";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <ExplorerModes />
       <AboutSection />
       <SkillsSection />
+      <ProjectsSection />
     </>
   );
 }

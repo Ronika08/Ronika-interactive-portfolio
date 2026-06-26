@@ -1,0 +1,485 @@
+/* ============================================================
+   ResumeSection.css — Obsidian Glass Design
+   Namespace: rs-  |  Cyan: #00E5FF  |  Violet: #8B5CF6
+   ============================================================ */
+
+/* ---------- Section ---------- */
+.rs-section {
+  position: relative;
+  padding: 100px 0 120px;
+  background: var(--ps-bg, #080B14);
+  overflow: hidden;
+  font-family: var(--ps-font-display, 'Inter', system-ui, sans-serif);
+}
+
+.rs-section::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -180px;
+  width: 560px;
+  height: 560px;
+  background: radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.rs-section::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  left: -150px;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(0,229,255,0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---------- Container ---------- */
+.rs-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------- Header ---------- */
+.rs-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.rs-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ps-cyan, #00E5FF);
+  margin-bottom: 20px;
+}
+
+.rs-eyebrow::before,
+.rs-eyebrow::after {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--ps-cyan, #00E5FF);
+  opacity: 0.5;
+}
+
+.rs-title {
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ps-text-primary, rgba(255,255,255,0.95));
+  margin: 0 0 16px;
+  line-height: 1.1;
+}
+
+.rs-title-accent {
+  background: linear-gradient(135deg, var(--ps-cyan, #00E5FF) 0%, var(--ps-violet, #8B5CF6) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---------- Layout ---------- */
+.rs-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ---------- Glass Card (shared) ---------- */
+.rs-card {
+  background: var(--ps-surface, rgba(255,255,255,0.04));
+  border: 1px solid var(--ps-border, rgba(255,255,255,0.08));
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+}
+
+/* ---------- Resume Hero Card ---------- */
+.rs-hero {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  position: relative;
+}
+
+.rs-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ps-cyan, #00E5FF), var(--ps-violet, #8B5CF6), transparent);
+}
+
+.rs-hero-left {
+  flex: 1;
+  padding: 36px;
+  border-right: 1px solid var(--ps-border, rgba(255,255,255,0.08));
+}
+
+.rs-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(0,229,255,0.15), rgba(139,92,246,0.15));
+  border: 1px solid rgba(0,229,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.rs-availability {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(0,229,100,0.1);
+  border: 1px solid rgba(0,229,100,0.22);
+  color: #00E564;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.rs-availability-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00E564;
+  animation: rs-pulse 2s infinite;
+}
+
+@keyframes rs-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+.rs-name {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--ps-text-primary, rgba(255,255,255,0.95));
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+}
+
+.rs-headline {
+  font-size: 15px;
+  color: var(--ps-cyan, #00E5FF);
+  font-weight: 500;
+  margin: 0 0 14px;
+}
+
+.rs-summary {
+  font-size: 14px;
+  color: var(--ps-text-secondary, rgba(255,255,255,0.55));
+  line-height: 1.75;
+  margin: 0 0 24px;
+}
+
+.rs-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rs-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ps-text-secondary, rgba(255,255,255,0.55));
+}
+
+.rs-meta-icon {
+  width: 20px;
+  text-align: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.rs-meta-link {
+  color: var(--ps-cyan, #00E5FF);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.rs-meta-link:hover { opacity: 0.75; }
+
+/* Hero right: CTA */
+.rs-hero-right {
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  min-width: 220px;
+  background: rgba(0,0,0,0.15);
+}
+
+.rs-cta-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ps-text-muted, rgba(255,255,255,0.3));
+  text-align: center;
+}
+
+.rs-preview-icon {
+  width: 72px;
+  height: 90px;
+  background: rgba(139,92,246,0.08);
+  border: 1px solid rgba(139,92,246,0.2);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  transition: 0.3s ease;
+}
+
+.rs-preview-icon:hover {
+  background: rgba(139,92,246,0.15);
+  border-color: var(--ps-violet, #8B5CF6);
+  transform: translateY(-3px);
+}
+
+.rs-btn-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--ps-cyan, #00E5FF), #00A8CC);
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0,229,255,0.28);
+}
+
+.rs-btn-download:hover {
+  box-shadow: 0 8px 30px rgba(0,229,255,0.45);
+  transform: translateY(-2px);
+  color: #000;
+}
+
+.rs-btn-open {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px;
+  border-radius: 10px;
+  background: var(--ps-surface, rgba(255,255,255,0.04));
+  border: 1px solid var(--ps-border, rgba(255,255,255,0.08));
+  color: var(--ps-text-secondary, rgba(255,255,255,0.55));
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.rs-btn-open:hover {
+  border-color: var(--ps-violet, #8B5CF6);
+  color: var(--ps-violet, #8B5CF6);
+  background: rgba(139,92,246,0.08);
+}
+
+/* ---------- Section Card internals ---------- */
+.rs-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--ps-border, rgba(255,255,255,0.08));
+}
+
+.rs-card-icon {
+  font-size: 18px;
+}
+
+.rs-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ps-text-muted, rgba(255,255,255,0.3));
+  margin: 0;
+}
+
+.rs-card-body {
+  padding: 20px 24px;
+}
+
+/* ---------- Highlights ---------- */
+.rs-highlights-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rs-highlight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--ps-text-secondary, rgba(255,255,255,0.55));
+  line-height: 1.6;
+}
+
+.rs-highlight-item::before {
+  content: '';
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ps-cyan, #00E5FF);
+  margin-top: 7px;
+}
+
+/* ---------- Education & Experience ---------- */
+.rs-edu-item,
+.rs-exp-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--ps-border, rgba(255,255,255,0.05));
+}
+
+.rs-edu-item:last-child,
+.rs-exp-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.rs-edu-degree,
+.rs-exp-role {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ps-text-primary, rgba(255,255,255,0.95));
+  margin: 0 0 3px;
+}
+
+.rs-edu-institution,
+.rs-exp-company {
+  font-size: 13px;
+  color: var(--ps-violet, #8B5CF6);
+  font-weight: 500;
+  margin: 0 0 3px;
+}
+
+.rs-edu-meta,
+.rs-exp-period {
+  font-size: 11px;
+  color: var(--ps-text-muted, rgba(255,255,255,0.3));
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 0 0 4px;
+}
+
+.rs-exp-desc {
+  font-size: 12px;
+  color: var(--ps-text-secondary, rgba(255,255,255,0.5));
+  line-height: 1.6;
+  margin: 6px 0 0;
+}
+
+/* ---------- Skills Snapshot ---------- */
+.rs-skills-snapshot {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rs-skill-row-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ps-cyan, #00E5FF);
+  margin-bottom: 7px;
+}
+
+.rs-skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.rs-skill-chip {
+  padding: 4px 11px;
+  border-radius: 12px;
+  background: rgba(139,92,246,0.08);
+  border: 1px solid rgba(139,92,246,0.18);
+  color: rgba(139,92,246,0.85);
+  font-size: 11px;
+  font-weight: 500;
+  font-family: var(--ps-font-mono, monospace);
+  transition: 0.25s ease;
+}
+
+.rs-skill-chip:hover {
+  background: rgba(139,92,246,0.16);
+  border-color: var(--ps-violet, #8B5CF6);
+  color: var(--ps-violet, #8B5CF6);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .rs-layout { grid-template-columns: 1fr; }
+  .rs-hero { flex-direction: column; }
+  .rs-hero-left { border-right: none; border-bottom: 1px solid var(--ps-border, rgba(255,255,255,0.08)); }
+  .rs-hero-right { flex-direction: row; flex-wrap: wrap; gap: 12px; padding: 24px; }
+  .rs-btn-download, .rs-btn-open { width: auto; flex: 1; min-width: 140px; }
+}
+
+@media (max-width: 600px) {
+  .rs-section { padding: 72px 0 80px; }
+  .rs-container { padding: 0 16px; }
+  .rs-hero-left { padding: 24px; }
+  .rs-hero-right { padding: 20px; }
+  .rs-name { font-size: 22px; }
+}
+
+/* ---------- Accessibility ---------- */
+.rs-btn-download:focus-visible,
+.rs-btn-open:focus-visible {
+  outline: 2px solid var(--ps-cyan, #00E5FF);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rs-btn-download, .rs-btn-open, .rs-preview-icon { transition: none; }
+  .rs-availability-dot { animation: none; }
+}

@@ -1,0 +1,123 @@
+[
+  {
+    "id": "cert-001",
+    "title": "AWS Academy Cloud Foundations",
+    "issuer": "AWS Academy",
+    "issueDate": "2025-06",
+    "credentialId": "AWS-CLOUD-FOUNDATIONS",
+    "skills": ["Cloud Computing", "AWS Services", "Security", "Networking"],
+    "certificateUrl": "https://www.credly.com/go/p1P55hoP",
+    "image": "",
+    "category": "Cloud"
+  },
+  {
+    "id": "cert-002",
+    "title": "AWS Academy Data Engineering",
+    "issuer": "AWS Academy",
+    "issueDate": "2026-02",
+    "credentialId": "AWS-DATA-ENGINEERING",
+    "skills": ["Data Engineering", "AWS", "Data Pipelines", "Analytics"],
+    "certificateUrl": "https://www.credly.com/go/6HqpmzSr",
+    "image": "",
+    "category": "Cloud"
+  },
+  {
+    "id": "cert-003",
+    "title": "AI Tools & ChatGPT Workshop",
+    "issuer": "be10x",
+    "issueDate": "2026-03",
+    "credentialId": "BE10X-AI-WORKSHOP",
+    "skills": ["ChatGPT", "AI Productivity", "Prompt Engineering"],
+    "certificateUrl": "",
+    "image": "",
+    "category": "AI"
+  },
+  {
+    "id": "cert-004",
+    "title": "Web Development Training",
+    "issuer": "Zidio Development",
+    "issueDate": "2025-10",
+    "credentialId": "ZIDIO-WEB-DEV",
+    "skills": ["HTML", "CSS", "JavaScript", "Web Development"],
+    "certificateUrl": "https://www.zidio.in",
+    "image": "",
+    "category": "Web Development"
+  },
+  {
+    "id": "cert-005",
+    "title": "Innowiet 2025 Hackathon Participation",
+    "issuer": "Vidya Vikas Institute of Engineering & Technology",
+    "issueDate": "2025-04",
+    "credentialId": "INNOWIET-2025",
+    "skills": ["Innovation", "Problem Solving", "Teamwork"],
+    "certificateUrl": "",
+    "image": "",
+    "category": "Hackathon"
+  },
+  {
+    "id": "cert-006",
+    "title": "Content Writing Internship Selection",
+    "issuer": "Internshala",
+    "issueDate": "2025-12",
+    "credentialId": "2gbeq44q54f",
+    "skills": ["Content Writing", "Communication", "Research"],
+    "certificateUrl": "https://internshala.com/verify_certificate",
+    "image": "",
+    "category": "Internship"
+  },
+  {
+    "id": "cert-007",
+    "title": "HTML CSS JavaScript Training",
+    "issuer": "Dalvik Apps & Wecan Education",
+    "issueDate": "2024-12",
+    "credentialId": "HTML-CSS-JS-2024",
+    "skills": ["HTML", "CSS", "JavaScript"],
+    "certificateUrl": "",
+    "image": "",
+    "category": "Web Development"
+  },
+  {
+    "id": "cert-008",
+    "title": "Cisco Networking Basics",
+    "issuer": "Cisco",
+    "issueDate": "2026",
+    "credentialId": "CISCO-NETWORKING-BASICS",
+    "skills": ["Networking", "IP Addressing", "Routing"],
+    "certificateUrl": "",
+    "image": "",
+    "category": "Networking"
+  },
+  {
+    "id": "cert-009",
+    "title": "Cisco Cybersecurity Essentials",
+    "issuer": "Cisco",
+    "issueDate": "2026",
+    "credentialId": "CISCO-CYBERSECURITY",
+    "skills": ["Cybersecurity", "Threat Analysis", "Network Security"],
+    "certificateUrl": "",
+    "image": "",
+    "category": "Cybersecurity"
+  },
+  {
+    "id": "cert-010",
+    "title": "Infosys Springboard Python",
+    "issuer": "Infosys Springboard",
+    "issueDate": "2026",
+    "credentialId": "INFOSYS-PYTHON",
+    "skills": ["Python", "Programming", "Problem Solving"],
+    "certificateUrl": "",
+    "image": "",
+    "category": "Programming"
+  },
+  {
+    "id": "cert-011",
+    "title": "Generative AI Bootcamp",
+    "issuer": "Generative AI Bootcamp",
+    "issueDate": "2026",
+    "credentialId": "GENAI-BOOTCAMP",
+    "skills": ["Generative AI", "LLMs", "Prompt Engineering"],
+    "certificateUrl": "",
+    "image": "",
+    "category": "AI"
+  }
+]

@@ -1,56 +1,61 @@
 {
-  "name": "Ronika S",
-  "headline": "Software Engineering Aspirant | AI Enthusiast | Full Stack Developer",
-  "tagline": "Passionate About Technology, Focused on Impact",
-  "subtitle": "Every Click Reveals a Story.",
-  "description": "A Software Developer and AI enthusiast passionate about building intelligent, scalable, and impactful digital solutions. I combine technical expertise, creativity, and problem-solving to transform ideas into innovative experiences that address real-world challenges.",
+"name": "Ronika S",
+"headline": "Software Engineering Aspirant | AI Enthusiast | Full Stack Developer",
+"tagline": "Passionate About Technology, Focused on Impact",
+"subtitle": "Every Click Reveals a Story.",
 
-  "role": "Software Engineering Aspirant",
+"location": "Mysuru, Karnataka",
+"preferredLocation": "Bengaluru",
 
-  "location": "Mysuru, Karnataka",
-  "preferredLocation": "Bengaluru",
+"email": "ronikaronu8867@gmail.com",
+"phone": "+91 88678 32763",
+"github": "https://github.com/Ronika08",
+"linkedin": "https://www.linkedin.com/in/ronika-s-7647552a2/",
 
-  "email": "ronikaronu8867@gmail.com",
+"resume": "/resume.pdf",
 
-  "github": "https://github.com/Ronika08",
-  "linkedin": "https://www.linkedin.com/in/ronika-s-7647552a2/",
+"typingRoles": [
+"Developer",
+"Designer",
+"Builder",
+"Creator"
+],
 
-  "resume": "/resume.pdf",
+"availability": "Open to internships and software engineering opportunities",
 
-  "typingRoles": [
-    "Developer",
-    "Designer",
-    "Builder",
-    "Creator"
-  ],
+"careerGoal": "To become a skilled Software Engineer and AI Innovator, creating intelligent, scalable, and impactful solutions that solve real-world challenges while continuously learning and contributing to technological advancement.",
 
-  "availability": "Open to internships and software engineering opportunities",
+"whySoftwareEngineering": "I love turning ideas into real applications that solve problems and make a positive impact.",
 
-  "careerGoal": "To become a skilled Software Engineer and AI Innovator, creating intelligent, scalable, and impactful solutions that solve real-world challenges while continuously learning and contributing to technological advancement.",
+"whyAI": "AI fascinates me because it enables technology to learn, think, and solve challenges in smarter ways.",
 
-  "whySoftwareEngineering": "I love turning ideas into real applications that solve problems and make a positive impact.",
+"motivation": "The challenge of building innovative solutions and continuously pushing my limits inspires me to grow as a developer.",
 
-  "whyAI": "AI fascinates me because it enables technology to learn, think, and solve challenges in smarter ways.",
+"strengths": [
+"Problem Solving",
+"Quick Learning",
+"Creativity",
+"Adaptability",
+"Persistence"
+],
 
-  "motivation": "The challenge of building innovative solutions and continuously pushing my limits inspires me to grow as a developer.",
+"interests": [
+"Artificial Intelligence",
+"Software Development",
+"UI/UX Design",
+"Problem Solving",
+"Emerging Technologies"
+],
 
-  "strengths": [
-    "Problem Solving",
-    "Quick Learning",
-    "Creativity",
-    "Adaptability",
-    "Persistence"
-  ],
+"favoriteProject": "Sakhi AI",
 
-  "interests": [
-    "Artificial Intelligence",
-    "Software Development",
-    "UI/UX Design",
-    "Problem Solving",
-    "Emerging Technologies"
-  ],
+"funFact": "I enjoy learning new technologies by building projects rather than just reading about them.",
 
-  "favoriteProject": "Sakhi AI",
+"cgpa": "8.09",
 
-  "funFact": "I enjoy learning new technologies by building projects rather than just reading about them."
+"college": "GSSS Institute of Engineering and Technology for Women",
+
+"branch": "Artificial Intelligence and Data Science",
+
+"graduationYear": "2027"
 }

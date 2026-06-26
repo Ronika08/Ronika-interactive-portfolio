@@ -1,1 +1,92 @@
-
+[
+  {
+    "id": "ach-001",
+    "title": "Sakhi AI Project Development",
+    "description": "Designed and developed Sakhi AI, an AI-powered assistant focused on solving real-world challenges through intelligent and user-friendly solutions.",
+    "category": "Project",
+    "date": "2026",
+    "icon": "🤖",
+    "highlight": true
+  },
+  {
+    "id": "ach-002",
+    "title": "Freelance Website Development",
+    "description": "Built and delivered a professional website for Mysuru Green Technologies Private Limited.",
+    "category": "Freelance",
+    "date": "2026",
+    "icon": "💼",
+    "highlight": true
+  },
+  {
+    "id": "ach-003",
+    "title": "Prayog 2024 Hackathon",
+    "description": "Participated in a 24-hour hackathon focused on innovation, collaboration, and rapid solution development.",
+    "category": "Hackathon",
+    "date": "2024",
+    "icon": "🏆",
+    "highlight": false
+  },
+  {
+    "id": "ach-004",
+    "title": "SJBIT Hackathon 2025",
+    "description": "Participated in a 24-hour national-level hackathon, developing practical solutions under time constraints.",
+    "category": "Hackathon",
+    "date": "2025",
+    "icon": "🚀",
+    "highlight": false
+  },
+  {
+    "id": "ach-005",
+    "title": "Innowiet 2025 Hackathon",
+    "description": "Successfully participated in the Innowiet 2025 Hackathon organized by Vidya Vikas Institute of Engineering and Technology.",
+    "category": "Hackathon",
+    "date": "2025",
+    "icon": "🏅",
+    "highlight": false
+  },
+  {
+    "id": "ach-006",
+    "title": "Open Source Contributions",
+    "description": "Actively maintaining GitHub repositories and contributing to software development projects.",
+    "category": "Open Source",
+    "date": "2026",
+    "icon": "🔀",
+    "highlight": false
+  },
+  {
+    "id": "ach-007",
+    "title": "AWS Academy Graduate",
+    "description": "Successfully completed AWS Cloud Foundations and AWS Data Engineering programs.",
+    "category": "Certification",
+    "date": "2026",
+    "icon": "☁️",
+    "highlight": true
+  },
+  {
+    "id": "ach-008",
+    "title": "Cisco Cybersecurity Learning",
+    "description": "Completed Cisco Networking Basics and Cisco Cybersecurity Essentials certifications.",
+    "category": "Certification",
+    "date": "2026",
+    "icon": "🔐",
+    "highlight": false
+  },
+  {
+    "id": "ach-009",
+    "title": "Department Event Volunteer",
+    "description": "Volunteered and supported the successful execution of the Escape Room Challenge department event.",
+    "category": "Leadership",
+    "date": "2025",
+    "icon": "🎯",
+    "highlight": false
+  },
+  {
+    "id": "ach-010",
+    "title": "Academic Excellence",
+    "description": "Maintaining a CGPA of 8.09 in Artificial Intelligence and Data Science Engineering.",
+    "category": "Academics",
+    "date": "2026",
+    "icon": "🎓",
+    "highlight": true
+  }
+]

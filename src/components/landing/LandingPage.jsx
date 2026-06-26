@@ -1,17 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import "./LandingPage.css";
+import profileData from "../../data/profile.json";
+import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
+import { SiGmail } from "react-icons/si";
 
 // ─── Profile data (loaded from src/data/profile.json) ─────────────────────────
 // Vite supports JSON imports natively. The component reads from the expected path.
 // If the file doesn't exist yet, fallback defaults are used so the UI never breaks.
-let profileData = {};
-try {
-  // Dynamic import at module level isn't possible; we use a static import with
-  // Vite's ?url trick or simply import directly. Use the inline fallback below
-  // and swap for:  import profile from "../data/profile.json";  in your project.
-  profileData = {};
-} catch (_) { /* noop */ }
+
 
 const FALLBACK = {
   name:         "Ronika S",
@@ -104,6 +101,7 @@ const cardVariant = {
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function LandingPage({ profile }) {
   // Merge: prop > imported JSON > fallback
+  
   const data = { ...FALLBACK, ...profileData, ...profile };
   const { name, tagline, headline, description, typingRoles, availability, github, linkedin } = data;
 
@@ -171,24 +169,29 @@ export default function LandingPage({ profile }) {
           </button>
 
           <a
-            className="btn btn--secondary"
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="View Resume (opens in new tab)"
-          >
-            <FileIcon /> View Resume
-          </a>
+  className="btn btn--secondary"
+  href="/resume.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <FileIcon /> View Resume
+</a>
+
+<a
+  className="btn btn--ghost"
+  href="/resume.pdf"
+  download="Ronika_S_Resume.pdf"
+>
+  ⬇️ Download Resume
+</a>
 
           <a
-            className="btn btn--ghost"
-            href={github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub profile (opens in new tab)"
-          >
-            <GitHubIcon /> GitHub
-          </a>
+  className="btn btn--ghost"
+  href={data.github}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+<FaGithub size={20} /></a>
 
           <a
             className="btn btn--ghost"
@@ -197,31 +200,31 @@ export default function LandingPage({ profile }) {
             rel="noopener noreferrer"
             aria-label="LinkedIn profile (opens in new tab)"
           >
-            <LinkedInIcon /> LinkedIn
-          </a>
+<FaLinkedin size={20} color="#0A66C2" />          </a>
+
+<a
+  className="btn btn--ghost"
+href="https://mail.google.com/mail/?view=cm&fs=1&to=ronikaronu8867@gmail.com"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <SiGmail size={20} color="#EA4335" />
+  Email Me
+</a>
+<a
+  className="btn btn--ghost"
+href="https://wa.me/918867837633?text=Hi%20Ronika."
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <FaWhatsapp size={20} color="#25D366" />
+  WhatsApp
+</a>
+
         </motion.div>
 
         {/* Social strip */}
-        <motion.div className="hero__social" {...fadeUp(0.65)} {...motionProps}>
-          <a
-            href={github}
-            className="social-link"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-          >
-            <GitHubIcon />
-          </a>
-          <a
-            href={linkedin}
-            className="social-link"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-          >
-            <LinkedInIcon />
-          </a>
-        </motion.div>
+       
       </motion.div>
     </section>
   );

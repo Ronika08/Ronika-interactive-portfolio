@@ -5,8 +5,11 @@
 
 import { useState, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useInView, useMotionValue, useSpring } from "framer-motion";
-import achievementsData from "../../data/achievements.json";
+import achievementsJson from "../../data/achievements.json";
+import { getEffectiveData, DOMAINS } from "../../utils/portfolioStorage";
 import "./AchievementsSection.css";
+
+const achievementsData = getEffectiveData(DOMAINS.ACHIEVEMENTS, achievementsJson);
 
 /* ─── Animation Variants ─────────────────────────────────── */
 const fadeSlideUp = {
@@ -56,11 +59,40 @@ function getCatClass(cat) {
   return map[cat] || "as-cat-default";
 }
 
+/* Returns a formatted "Mon YYYY" / "YYYY" string, or null when the
+   date is empty, null, undefined, or otherwise not parseable — the
+   caller skips rendering the date element entirely in that case
+   instead of ever showing "Invalid Date". No dates are invented. */
 function formatDate(dateStr) {
-  const [year, month] = dateStr.split("-");
-  return new Date(+year, +month - 1, 1).toLocaleDateString("en-IN", {
-    month: "short", year: "numeric",
-  });
+  if (!dateStr || typeof dateStr !== "string" || !dateStr.trim()) return null;
+
+  const trimmed = dateStr.trim();
+
+  // "YYYY-MM" — full month + year
+  const yearMonth = trimmed.match(/^(\d{4})-(\d{1,2})$/);
+  if (yearMonth) {
+    const year = Number(yearMonth[1]);
+    const month = Number(yearMonth[2]);
+    if (month >= 1 && month <= 12) {
+      const parsed = new Date(year, month - 1, 1);
+      if (!Number.isNaN(parsed.getTime())) {
+        return parsed.toLocaleDateString("en-IN", { month: "short", year: "numeric" });
+      }
+    }
+    return null;
+  }
+
+  // "YYYY" — year only
+  const yearOnly = trimmed.match(/^\d{4}$/);
+  if (yearOnly) return trimmed;
+
+  // Anything else recognizable by the Date constructor
+  const parsed = new Date(trimmed);
+  if (!Number.isNaN(parsed.getTime())) {
+    return parsed.toLocaleDateString("en-IN", { month: "short", year: "numeric" });
+  }
+
+  return null;
 }
 
 /* ─── Animated Counter ────────────────────────────────────── */
@@ -116,6 +148,7 @@ function StatsBar({ data }) {
 
 /* ─── Achievement Card ────────────────────────────────────── */
 function AchievementCard({ item }) {
+  const formattedDate = formatDate(item.date);
   return (
     <motion.div
       className={`as-item${item.highlight ? " highlight" : ""}`}
@@ -131,7 +164,7 @@ function AchievementCard({ item }) {
             {item.highlight && (
               <span className="as-highlight-badge">★ Highlight</span>
             )}
-            <span className="as-date">{formatDate(item.date)}</span>
+            {formattedDate && <span className="as-date">{formattedDate}</span>}
           </div>
           <h3 className="as-card-title">{item.title}</h3>
           <p className="as-card-desc">{item.description}</p>

@@ -103,7 +103,8 @@ export default function LandingPage({ profile }) {
   // Merge: prop > imported JSON > fallback
   
   const data = { ...FALLBACK, ...profileData, ...profile };
-  const { name, tagline, headline, description, typingRoles, availability, github, linkedin } = data;
+  const { name, tagline, headline, description, typingRoles, availability, github, linkedin, photo } = data;
+  const [photoError, setPhotoError] = useState(false);
 
   const roles = Array.isArray(typingRoles) && typingRoles.length ? typingRoles : FALLBACK.typingRoles;
   const typed = useTypewriter(roles);
@@ -124,11 +125,30 @@ export default function LandingPage({ profile }) {
         {...cardVariant}
         {...motionProps}
       >
-        {/* Badge */}
-        <motion.div className="hero__badge" {...fadeUp(0.1)} {...motionProps}>
-          <span className="hero__badge-dot" aria-hidden="true" />
-          {availability}
-        </motion.div>
+        {/* Identity row: photo + availability badge read as one composition */}
+        <div className="hero__identity">
+          <motion.div className="hero__photo-wrap" {...fadeUp(0.05)} {...motionProps}>
+            {!photoError ? (
+              <img
+                src={photo || "/profile-photo.jpg"}
+                alt={name}
+                className="hero__photo"
+                loading="eager"
+                onError={() => setPhotoError(true)}
+              />
+            ) : (
+              <div className="hero__photo hero__photo--fallback" aria-hidden="true">
+                {name ? name.trim().charAt(0).toUpperCase() : "R"}
+              </div>
+            )}
+          </motion.div>
+
+          {/* Badge */}
+          <motion.div className="hero__badge" {...fadeUp(0.1)} {...motionProps}>
+            <span className="hero__badge-dot" aria-hidden="true" />
+            {availability}
+          </motion.div>
+        </div>
 
         {/* Name */}
         <motion.h1 className="hero__name" {...fadeUp(0.2)} {...motionProps}>

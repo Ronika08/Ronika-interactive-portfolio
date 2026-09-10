@@ -5,8 +5,11 @@
 
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import certsData from "../../data/certificates.json";
+import certificatesJson from "../../data/certificates.json";
+import { getEffectiveData, DOMAINS } from "../../utils/portfolioStorage";
 import "./CertificatesSection.css";
+
+const certsData = getEffectiveData(DOMAINS.CERTIFICATES, certificatesJson);
 
 /* ─── Animation Variants ─────────────────────────────────── */
 const fadeSlideUp = {
@@ -41,6 +44,7 @@ const modalAnim = {
 /* ─── Helpers ─────────────────────────────────────────────── */
 const ISSUER_ICONS = {
   "Amazon Web Services": "☁️",
+  "AWS Academy": "☁️",
   "Google": "🎯",
   "Coursera / DeepLearning.AI": "🧠",
   "DeepLearning.AI": "🧠",
@@ -50,19 +54,28 @@ const ISSUER_ICONS = {
   "ByteByteGo": "🏗️",
   "Udemy / Maximilian Schwarzmüller": "📚",
   "Coursera / University of Alberta": "🎓",
+  "Deloitte": "🎯",
+  "Cisco": "🌐",
+  "Infosys Springboard": "💻",
 };
 
 function getIssuerIcon(issuer) {
   return ISSUER_ICONS[issuer] || "🏅";
 }
 
-function formatDate(dateStr) {
-  if (!dateStr) return "No Expiry";
-  const [year, month] = dateStr.split("-");
-  const d = new Date(+year, +month - 1, 1);
-  return d.toLocaleDateString("en-IN", { month: "short", year: "numeric" });
+/* issueDate/period are already final, human-readable strings (e.g.
+   "June 29, 2026", "40 hours") — rendered directly, no reparsing. */
+function getCardMetaLabel(cert) {
+  return cert.issueDate || cert.period || "";
 }
 
+function hasAnyDateInfo(cert) {
+  return Boolean(cert.issueDate || cert.period);
+}
+
+/* certsData may still carry a certificateUrl field for future use,
+   but it is intentionally not read or rendered anywhere in this
+   component — verification links are no longer part of the UI. */
 function getAllIssuers(certs) {
   return ["All", ...new Set(certs.map((c) => c.category))];
 }
@@ -96,6 +109,9 @@ function CertModal({ cert, onClose }) {
     };
   }, [onClose]);
 
+  const hasFile = Boolean(cert.certificateFile);
+  const skills = Array.isArray(cert.skills) ? cert.skills : [];
+
   return (
     <div
       className="cs-modal"
@@ -109,9 +125,14 @@ function CertModal({ cert, onClose }) {
       <header className="cs-modal-header">
         <div className="cs-modal-logo" aria-hidden="true">{getIssuerIcon(cert.issuer)}</div>
         <div className="cs-modal-header-text">
-          <div className="cs-modal-category">{cert.category}</div>
+          <div className="cs-modal-category-row">
+            <span className="cs-modal-category">{cert.category}</span>
+          </div>
           <h2 className="cs-modal-title" id="cs-modal-title">{cert.title}</h2>
-          <p className="cs-modal-issuer">{cert.issuer}</p>
+          <p className="cs-modal-issuer">
+            {cert.issuer}
+            {cert.platform ? ` · ${cert.platform}` : ""}
+          </p>
         </div>
         <button
           className="cs-modal-close"
@@ -122,41 +143,65 @@ function CertModal({ cert, onClose }) {
       </header>
 
       <div className="cs-modal-body">
-        <div className="cs-modal-row">
-          <div className="cs-modal-field">
-            <div className="cs-modal-field-label">Issue Date</div>
-            <div className="cs-modal-field-value">{formatDate(cert.issueDate)}</div>
+        {hasFile ? (
+          <div className="cs-modal-pdf-wrap">
+            <iframe
+              src={cert.certificateFile}
+              title={`${cert.title} certificate document`}
+              className="cs-modal-pdf"
+            />
           </div>
-          <div className="cs-modal-field">
-            <div className="cs-modal-field-label">Expiry</div>
-            <div className="cs-modal-field-value">{formatDate(cert.expiryDate)}</div>
-          </div>
-          <div className="cs-modal-field" style={{ gridColumn: "1 / -1" }}>
-            <div className="cs-modal-field-label">Credential ID</div>
-            <div className="cs-modal-field-value">{cert.credentialId}</div>
-          </div>
-        </div>
+        ) : (
+          <p className="cs-modal-note">
+            Certificate document will be added soon.
+          </p>
+        )}
 
-        <div className="cs-modal-skills-section">
-          <div className="cs-modal-skills-label">Skills Covered</div>
-          <div className="cs-modal-skills-grid">
-            {cert.skills.map((s) => (
-              <span key={s} className="cs-modal-skill-chip">{s}</span>
-            ))}
+        {hasAnyDateInfo(cert) && (
+          <div className="cs-modal-row">
+            {cert.issueDate && (
+              <div className="cs-modal-field">
+                <div className="cs-modal-field-label">Issue Date</div>
+                <div className="cs-modal-field-value">{cert.issueDate}</div>
+              </div>
+            )}
+            {cert.period && (
+              <div className="cs-modal-field">
+                <div className="cs-modal-field-label">Period</div>
+                <div className="cs-modal-field-value">{cert.period}</div>
+              </div>
+            )}
+            {cert.credentialId && (
+              <div className="cs-modal-field" style={{ gridColumn: "1 / -1" }}>
+                <div className="cs-modal-field-label">Credential ID</div>
+                <div className="cs-modal-field-value">{cert.credentialId}</div>
+              </div>
+            )}
           </div>
-        </div>
+        )}
+
+        {!hasAnyDateInfo(cert) && cert.credentialId && (
+          <div className="cs-modal-row">
+            <div className="cs-modal-field" style={{ gridColumn: "1 / -1" }}>
+              <div className="cs-modal-field-label">Credential ID</div>
+              <div className="cs-modal-field-value">{cert.credentialId}</div>
+            </div>
+          </div>
+        )}
+
+        {skills.length > 0 && (
+          <div className="cs-modal-skills-section">
+            <div className="cs-modal-skills-label">Skills Covered</div>
+            <div className="cs-modal-skills-grid">
+              {skills.map((s) => (
+                <span key={s} className="cs-modal-skill-chip">{s}</span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <footer className="cs-modal-footer">
-        <a
-          href={cert.certificateUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="cs-btn-primary"
-          aria-label={`View ${cert.title} credential`}
-        >
-          <span aria-hidden="true">🔗</span> View Credential
-        </a>
         <button className="cs-btn-secondary" onClick={onClose}>Close</button>
       </footer>
     </div>
@@ -165,8 +210,43 @@ function CertModal({ cert, onClose }) {
 
 /* ─── Certificate Card ────────────────────────────────────── */
 function CertCard({ cert, onClick }) {
-  const visibleSkills = cert.skills.slice(0, 3);
-  const overflow = cert.skills.length - 3;
+  const skills = Array.isArray(cert.skills) ? cert.skills : [];
+  const visibleSkills = skills.slice(0, 3);
+  const overflow = skills.length - 3;
+  const isComingSoon = cert.status === "Coming Soon";
+  const metaLabel = getCardMetaLabel(cert);
+
+  if (isComingSoon) {
+    return (
+      <motion.article
+        className="cs-card cs-card--coming-soon"
+        variants={cardAnim}
+        layout
+        aria-label={`${cert.title} from ${cert.issuer} — Coming Soon`}
+      >
+        <div className="cs-card-logo" aria-hidden="true">{getIssuerIcon(cert.issuer)}</div>
+
+        <div className="cs-card-meta">
+          <span className="cs-category-badge">{cert.category}</span>
+          <span className="cs-badge-coming-soon">Coming Soon</span>
+        </div>
+
+        <h3 className="cs-card-title">{cert.title}</h3>
+        <p className="cs-card-issuer">{cert.issuer}</p>
+
+        <div className="cs-card-skills">
+          {visibleSkills.map((s) => (
+            <span key={s} className="cs-skill-chip">{s}</span>
+          ))}
+          {overflow > 0 && <span className="cs-skill-chip">+{overflow} more</span>}
+        </div>
+
+        <div className="cs-card-footer">
+          <span className="cs-credential-id">Certificate in progress</span>
+        </div>
+      </motion.article>
+    );
+  }
 
   return (
     <motion.article
@@ -183,11 +263,14 @@ function CertCard({ cert, onClick }) {
 
       <div className="cs-card-meta">
         <span className="cs-category-badge">{cert.category}</span>
-        <span className="cs-card-date">{formatDate(cert.issueDate)}</span>
+        {metaLabel && <span className="cs-card-date">{metaLabel}</span>}
       </div>
 
       <h3 className="cs-card-title">{cert.title}</h3>
-      <p className="cs-card-issuer">{cert.issuer}</p>
+      <p className="cs-card-issuer">
+        {cert.issuer}
+        {cert.platform ? ` · ${cert.platform}` : ""}
+      </p>
 
       <div className="cs-card-skills">
         {visibleSkills.map((s) => (
@@ -198,7 +281,7 @@ function CertCard({ cert, onClick }) {
 
       <div className="cs-card-footer">
         <span className="cs-credential-id">{cert.credentialId}</span>
-        <span className="cs-view-badge" aria-hidden="true">View ↗</span>
+        <span className="cs-view-badge" aria-hidden="true">View Certificate ↗</span>
       </div>
     </motion.article>
   );
@@ -219,7 +302,7 @@ export default function CertificatesSection() {
       const matchQ = !q ||
         c.title.toLowerCase().includes(q) ||
         c.issuer.toLowerCase().includes(q) ||
-        c.skills.some((s) => s.toLowerCase().includes(q));
+        (Array.isArray(c.skills) && c.skills.some((s) => s.toLowerCase().includes(q)));
       return matchCat && matchQ;
     });
   }, [query, filter]);
@@ -245,10 +328,10 @@ export default function CertificatesSection() {
         >
           <motion.div variants={fadeSlideUp} className="cs-eyebrow">Credentials</motion.div>
           <motion.h1 className="cs-title" id="cs-section-title" variants={fadeSlideUp}>
-            Certificates &amp; <span className="cs-title-accent">Certifications</span>
+            <span className="cs-title-accent">Certifications</span>
           </motion.h1>
           <motion.p className="cs-subtitle" variants={fadeSlideUp}>
-            {certsData.length} credentials across AI/ML, cloud, backend, and systems engineering.
+            A curated collection of {certsData.length} technical certifications, training, and professional achievements.
           </motion.p>
         </motion.header>
 
@@ -340,7 +423,7 @@ export default function CertificatesSection() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              style={{ width: "100%", maxWidth: 640 }}
+              className="cs-modal-wrap"
             >
               <CertModal cert={selected} onClose={handleClose} />
             </motion.div>

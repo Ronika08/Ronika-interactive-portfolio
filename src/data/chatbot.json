@@ -1,0 +1,273 @@
+{
+  "assistantName": "RoniGenie \ud83e\ude84\ud83e\udd16\ud83d\udcac",
+  "greeting": "Hi! I'm Ronika's portfolio assistant. What would you like to know?",
+  "menu": [
+    {
+      "id": "about",
+      "label": "About Ronika"
+    },
+    {
+      "id": "projects",
+      "label": "Projects"
+    },
+    {
+      "id": "skills",
+      "label": "Skills"
+    },
+    {
+      "id": "achievements",
+      "label": "Achievements"
+    },
+    {
+      "id": "certificates",
+      "label": "Certificates"
+    },
+    {
+      "id": "education",
+      "label": "Education"
+    },
+    {
+      "id": "contact",
+      "label": "Contact"
+    },
+    {
+      "id": "resume",
+      "label": "Resume"
+    }
+  ],
+  "profile": {
+    "name": "Ronika S",
+    "headline": "Software Engineering Aspirant | AI Enthusiast | Full Stack Developer",
+    "tagline": "Passionate About Technology, Focused on Impact",
+    "subtitle": "Every Click Reveals a Story.",
+    "location": "Mysuru, Karnataka",
+    "availability": "Open to internships and software engineering opportunities",
+    "careerGoal": "To become a skilled Software Engineer and AI Innovator, creating intelligent, scalable, and impactful solutions that solve real-world challenges while continuously learning and contributing to technological advancement.",
+    "whySoftwareEngineering": "I love turning ideas into real applications that solve problems and make a positive impact.",
+    "whyAI": "AI fascinates me because it enables technology to learn, think, and solve challenges in smarter ways.",
+    "motivation": "The challenge of building innovative solutions and continuously pushing my limits inspires me to grow as a developer.",
+    "favoriteProject": "Sakhi AI",
+    "funFact": "I enjoy learning new technologies by building projects rather than just reading about them."
+  },
+  "education": {
+    "college": "GSSS Institute of Engineering and Technology for Women",
+    "branch": "Artificial Intelligence and Data Science",
+    "cgpa": "8.09",
+    "graduationYear": "2027"
+  },
+  "strengths": [
+    "Problem Solving",
+    "Quick Learning",
+    "Creativity",
+    "Adaptability",
+    "Persistence"
+  ],
+  "interests": [
+    "Artificial Intelligence",
+    "Software Development",
+    "UI/UX Design",
+    "Problem Solving",
+    "Emerging Technologies"
+  ],
+  "contact": {
+    "email": "ronikaronu8867@gmail.com",
+    "github": "https://github.com/Ronika08",
+    "linkedin": "https://www.linkedin.com/in/ronika-s-7647552a2/",
+    "resume": "/resume.pdf"
+  },
+  "navigation": {
+    "projects": "projects",
+    "skills": "skills",
+    "achievements": "achievements",
+    "certificates": "certificates",
+    "contact": "contact"
+  },
+  "aboutFollowUps": [
+    {
+      "id": "why-se",
+      "label": "Why Software Engineering?"
+    },
+    {
+      "id": "why-ai",
+      "label": "Why AI?"
+    },
+    {
+      "id": "strengths",
+      "label": "Strengths"
+    },
+    {
+      "id": "career-goal",
+      "label": "Career Goal"
+    },
+    {
+      "id": "menu",
+      "label": "Back to Menu"
+    }
+  ],
+  "intents": [
+    {
+      "id": "about",
+      "keywords": [
+        "who are you",
+        "tell me about ronika",
+        "about ronika",
+        "what does ronika do",
+        "who is ronika",
+        "about you",
+        "introduce yourself"
+      ]
+    },
+    {
+      "id": "projects",
+      "keywords": [
+        "project",
+        "projects",
+        "what have you built",
+        "what has she built",
+        "show me her projects",
+        "portfolio projects",
+        "what are you working on"
+      ]
+    },
+    {
+      "id": "skills",
+      "keywords": [
+        "skill",
+        "skills",
+        "what skills",
+        "technologies",
+        "tech stack"
+      ]
+    },
+    {
+      "id": "achievements",
+      "keywords": [
+        "achievement",
+        "achievements",
+        "accomplishment",
+        "accomplishments"
+      ]
+    },
+    {
+      "id": "certificates",
+      "keywords": [
+        "certificate",
+        "certificates",
+        "certification",
+        "certifications"
+      ]
+    },
+    {
+      "id": "education",
+      "keywords": [
+        "education",
+        "college",
+        "branch",
+        "cgpa",
+        "gpa",
+        "what is she studying",
+        "what branch",
+        "when will she graduate",
+        "graduation",
+        "degree",
+        "university"
+      ]
+    },
+    {
+      "id": "contact",
+      "keywords": [
+        "contact",
+        "email",
+        "reach",
+        "get in touch",
+        "github",
+        "linkedin",
+        "how can i contact"
+      ]
+    },
+    {
+      "id": "resume",
+      "keywords": [
+        "resume",
+        "cv",
+        "can i see her resume"
+      ]
+    },
+    {
+      "id": "why-se",
+      "keywords": [
+        "why software engineering",
+        "why software",
+        "why did you choose software engineering"
+      ]
+    },
+    {
+      "id": "why-ai",
+      "keywords": [
+        "why ai",
+        "why artificial intelligence"
+      ]
+    },
+    {
+      "id": "strengths",
+      "keywords": [
+        "strength",
+        "strengths",
+        "what are her strengths",
+        "good at"
+      ]
+    },
+    {
+      "id": "career-goal",
+      "keywords": [
+        "career goal",
+        "career direction",
+        "future plans",
+        "where do you see yourself"
+      ]
+    },
+    {
+      "id": "location",
+      "keywords": [
+        "where is she from",
+        "where is ronika from",
+        "where does she live",
+        "based in",
+        "location"
+      ]
+    },
+    {
+      "id": "work-location",
+      "keywords": [
+        "where does she want to work",
+        "preferred location",
+        "where would she like to work"
+      ]
+    }
+  ],
+  "fallback": {
+    "message": "I'm currently focused on answering questions about Ronika's portfolio. Try asking about her projects, skills, achievements, certificates, education, or contact details.",
+    "options": [
+      {
+        "id": "projects",
+        "label": "Projects"
+      },
+      {
+        "id": "skills",
+        "label": "Skills"
+      },
+      {
+        "id": "achievements",
+        "label": "Achievements"
+      },
+      {
+        "id": "contact",
+        "label": "Contact"
+      },
+      {
+        "id": "menu",
+        "label": "Main Menu"
+      }
+    ]
+  }
+}

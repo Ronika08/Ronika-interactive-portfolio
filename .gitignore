@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Large portfolio demo videos
+public/videos/it-ops-intelligence.mp4
+public/videos/mini-database-engine.mp4
+# Portfolio demo videos
+public/videos/*.mp4

@@ -1,0 +1,369 @@
+/* ─── Chatbot.css ─── */
+/* Styles for the "RoniGenie 🪄🤖💬" floating portfolio assistant
+   (src/components/chatbot/Chatbot.jsx). Matches the existing
+   Obsidian Glass design language used across the portfolio — dark
+   surfaces, glassmorphism, cyan/violet/pink accents — scoped
+   entirely under .rai-widget so nothing here leaks into or depends
+   on load order with other components. */
+
+.rai-widget {
+  --rai-bg:            #0a0a0f;
+  --rai-glass:         rgba(18, 18, 28, 0.82);
+  --rai-glass-soft:    rgba(255, 255, 255, 0.04);
+  --rai-border:        rgba(255, 255, 255, 0.09);
+  --rai-border-strong: rgba(255, 255, 255, 0.2);
+
+  --rai-cyan:          #00e5ff;
+  --rai-cyan-dim:      rgba(0, 229, 255, 0.12);
+  --rai-cyan-glow:     rgba(0, 229, 255, 0.35);
+
+  --rai-violet:        #b44dff;
+  --rai-violet-dim:    rgba(180, 77, 255, 0.12);
+  --rai-violet-glow:   rgba(180, 77, 255, 0.35);
+
+  --rai-pink:          #ff6be8;
+  --rai-pink-glow:     rgba(255, 107, 232, 0.35);
+
+  --rai-text-primary:   #f0f0ff;
+  --rai-text-secondary: rgba(240, 240, 255, 0.62);
+  --rai-text-muted:     rgba(240, 240, 255, 0.4);
+
+  --rai-radius-lg: 20px;
+  --rai-radius-md: 14px;
+  --rai-radius-pill: 999px;
+
+  --rai-transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --rai-font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --rai-font-body: 'Inter', system-ui, sans-serif;
+
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 999;
+  font-family: var(--rai-font-body);
+  color: var(--rai-text-primary);
+}
+
+.rai-widget *,
+.rai-widget *::before,
+.rai-widget *::after {
+  box-sizing: border-box;
+}
+
+/* ── Floating launcher ── */
+.rai-launcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--rai-font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0a0a0f;
+  background: linear-gradient(90deg, var(--rai-pink), var(--rai-violet));
+  border: none;
+  border-radius: var(--rai-radius-pill);
+  padding: 0.85rem 1.25rem;
+  cursor: pointer;
+  box-shadow: 0 6px 28px var(--rai-pink-glow), 0 2px 12px rgba(0, 0, 0, 0.5);
+  transition: transform var(--rai-transition), box-shadow var(--rai-transition);
+  min-height: 48px;
+  touch-action: manipulation;
+}
+
+.rai-launcher:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 34px var(--rai-pink-glow), 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.rai-launcher:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.rai-launcher:focus-visible {
+  outline: 2px solid var(--rai-cyan);
+  outline-offset: 3px;
+}
+
+.rai-launcher__label {
+  white-space: nowrap;
+}
+
+/* ── Chat panel ── */
+.rai-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.85rem);
+  width: min(380px, calc(100vw - 2.5rem));
+  height: min(560px, calc(100vh - 8rem));
+  display: flex;
+  flex-direction: column;
+  background: var(--rai-glass);
+  border: 1px solid var(--rai-border);
+  border-radius: var(--rai-radius-lg);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: 0 16px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--rai-border);
+  overflow: hidden;
+}
+
+/* ── Header ── */
+.rai-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid var(--rai-border);
+  background: rgba(255, 255, 255, 0.02);
+  flex-shrink: 0;
+}
+
+.rai-panel__title {
+  font-family: var(--rai-font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--rai-cyan), var(--rai-violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.rai-panel__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: 0.9rem;
+  color: var(--rai-text-secondary);
+  background: transparent;
+  border: 1px solid var(--rai-border-strong);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color var(--rai-transition), border-color var(--rai-transition), transform var(--rai-transition);
+}
+
+.rai-panel__close:hover {
+  color: var(--rai-text-primary);
+  border-color: var(--rai-cyan);
+}
+
+.rai-panel__close:focus-visible {
+  outline: 2px solid var(--rai-cyan);
+  outline-offset: 2px;
+}
+
+/* ── Message list ── */
+.rai-panel__body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  scroll-behavior: smooth;
+}
+
+.rai-panel__body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.rai-panel__body::-webkit-scrollbar-thumb {
+  background: var(--rai-border-strong);
+  border-radius: var(--rai-radius-pill);
+}
+
+/* ── Message bubbles ── */
+.rai-message {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 92%;
+}
+
+.rai-message--bot {
+  align-self: flex-start;
+}
+
+.rai-message--user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.rai-bubble {
+  border-radius: var(--rai-radius-md);
+  padding: 0.65rem 0.9rem;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.rai-message--bot .rai-bubble {
+  background: var(--rai-glass-soft);
+  border: 1px solid var(--rai-border);
+  color: var(--rai-text-primary);
+  border-bottom-left-radius: 4px;
+}
+
+.rai-message--user .rai-bubble {
+  background: var(--rai-violet-dim);
+  border: 1px solid var(--rai-violet);
+  color: var(--rai-text-primary);
+  border-bottom-right-radius: 4px;
+}
+
+.rai-bubble__line {
+  margin: 0;
+}
+
+.rai-bubble__line + .rai-bubble__line {
+  margin-top: 0.35rem;
+}
+
+/* ── Chips (options / links) ── */
+.rai-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.rai-chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--rai-font-body);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--rai-cyan);
+  background: var(--rai-cyan-dim);
+  border: 1px solid var(--rai-cyan);
+  border-radius: var(--rai-radius-pill);
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform var(--rai-transition), box-shadow var(--rai-transition), background var(--rai-transition);
+  min-height: 32px;
+}
+
+.rai-chip:hover {
+  background: rgba(0, 229, 255, 0.22);
+  box-shadow: 0 0 12px var(--rai-cyan-glow);
+  transform: translateY(-1px);
+}
+
+.rai-chip:focus-visible {
+  outline: 2px solid var(--rai-cyan);
+  outline-offset: 2px;
+}
+
+.rai-chip--link {
+  color: var(--rai-violet);
+  background: var(--rai-violet-dim);
+  border-color: var(--rai-violet);
+}
+
+.rai-chip--link:hover {
+  background: rgba(180, 77, 255, 0.22);
+  box-shadow: 0 0 12px var(--rai-violet-glow);
+}
+
+/* ── Input row ── */
+.rai-panel__input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem;
+  border-top: 1px solid var(--rai-border);
+  background: rgba(255, 255, 255, 0.02);
+  flex-shrink: 0;
+}
+
+.rai-input {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--rai-font-body);
+  font-size: 0.85rem;
+  color: var(--rai-text-primary);
+  background: var(--rai-glass-soft);
+  border: 1px solid var(--rai-border-strong);
+  border-radius: var(--rai-radius-pill);
+  padding: 0.6rem 0.95rem;
+  min-height: 40px;
+  transition: border-color var(--rai-transition), box-shadow var(--rai-transition);
+}
+
+.rai-input::placeholder {
+  color: var(--rai-text-muted);
+}
+
+.rai-input:focus-visible,
+.rai-input:focus {
+  outline: none;
+  border-color: var(--rai-cyan);
+  box-shadow: 0 0 12px var(--rai-cyan-glow);
+}
+
+.rai-send-btn {
+  flex-shrink: 0;
+  font-family: var(--rai-font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0a0a0f;
+  background: linear-gradient(90deg, var(--rai-pink), var(--rai-violet));
+  border: none;
+  border-radius: var(--rai-radius-pill);
+  padding: 0.6rem 1.1rem;
+  min-height: 40px;
+  cursor: pointer;
+  transition: transform var(--rai-transition), box-shadow var(--rai-transition), opacity var(--rai-transition);
+}
+
+.rai-send-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px var(--rai-pink-glow);
+}
+
+.rai-send-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.rai-send-btn:focus-visible {
+  outline: 2px solid var(--rai-cyan);
+  outline-offset: 2px;
+}
+
+/* ── Responsive: mobile ── */
+@media (max-width: 480px) {
+  .rai-widget {
+    right: 1rem;
+    bottom: 1rem;
+  }
+
+  .rai-panel {
+    width: calc(100vw - 2rem);
+    height: min(70vh, 560px);
+    right: -0.5rem;
+  }
+
+  .rai-launcher__label {
+    display: none;
+  }
+
+  .rai-launcher {
+    padding: 0.85rem;
+    border-radius: 50%;
+    min-width: 48px;
+    justify-content: center;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .rai-launcher,
+  .rai-chip,
+  .rai-send-btn,
+  .rai-input,
+  .rai-panel__close {
+    transition: none;
+  }
+}

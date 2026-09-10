@@ -162,6 +162,44 @@
     0 8px 40px rgba(0, 0, 0, 0.5);
 }
 
+/* ── Active / selected state ──
+   Applied once a visitor has picked a mode. Persists after the
+   hover/focus glow fades so the choice stays visible while the
+   page scrolls to the matching section. */
+.explorer-card--active {
+  border-color: var(--card-accent);
+  box-shadow:
+    0 0 0 1px var(--card-accent),
+    0 0 24px var(--card-glow),
+    0 8px 40px rgba(0, 0, 0, 0.45);
+}
+
+.explorer-card--active .explorer-card__cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Small selected indicator, top-right corner */
+.explorer-card--active::after {
+  content: '✓';
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--card-accent);
+  color: var(--obsidian-base);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 0 12px var(--card-glow);
+  z-index: 1;
+}
+
 /* ── Icon ── */
 .explorer-card__icon {
   font-size: 2.4rem;
@@ -179,6 +217,28 @@
   color: var(--card-accent);
   margin: 0 0 0.55rem;
   letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* "Coming Soon" badge — used for modes whose full experience
+   (e.g. the Challenge Mode mini-game) isn't built yet, so the
+   card is honest about it instead of pretending it's complete. */
+.explorer-card__badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--card-accent);
+  background: var(--card-dim);
+  border: 1px solid var(--card-accent);
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+  white-space: nowrap;
+  opacity: 0.9;
 }
 
 /* ── Description ── */

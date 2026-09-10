@@ -1,7 +1,10 @@
 // AboutSection.jsx
 import { motion } from 'framer-motion';
-import profile from "../../data/profile.json";
+import profileJson from "../../data/profile.json";
+import { getEffectiveData, DOMAINS } from '../../utils/portfolioStorage';
 import './AboutSection.css';
+
+const profile = getEffectiveData(DOMAINS.PROFILE, profileJson);
 
 /* ── Animation variants ── */
 const fadeUp = {
@@ -48,10 +51,10 @@ function BlockLabel({ text }) {
 export default function AboutSection() {
   const {
     name,
-    description,
+    summary,
     careerGoal,
     location,
-    preferredLocation,
+    availability,
     whySoftwareEngineering,
     whyAI,
     motivation,
@@ -75,7 +78,7 @@ export default function AboutSection() {
         <Reveal delay={0.05} className="about-block">
           <BlockLabel text="Who is Ronika?" />
           <div className="about-profile-card">
-            <p className="about-profile__summary">{description}</p>
+            <p className="about-profile__summary">{summary}</p>
             {careerGoal && (
               <p className="about-profile__goal">{careerGoal}</p>
             )}
@@ -86,10 +89,10 @@ export default function AboutSection() {
                   {location}
                 </span>
               )}
-              {preferredLocation && (
+              {availability && (
                 <span className="about-meta-chip">
-                  <span className="about-meta-chip__icon">🎯</span>
-                  Open to {preferredLocation}
+                  <span className="about-meta-chip__icon">💼</span>
+                  {availability}
                 </span>
               )}
             </div>

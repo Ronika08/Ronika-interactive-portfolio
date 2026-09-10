@@ -63,15 +63,6 @@
     "highlight": true
   },
   {
-    "id": "ach-008",
-    "title": "Cisco Cybersecurity Learning",
-    "description": "Completed Cisco Networking Basics and Cisco Cybersecurity Essentials certifications.",
-    "category": "Certification",
-    "date": "2026",
-    "icon": "🔐",
-    "highlight": false
-  },
-  {
     "id": "ach-009",
     "title": "Department Event Volunteer",
     "description": "Volunteered and supported the successful execution of the Escape Room Challenge department event.",
@@ -88,5 +79,23 @@
     "date": "2026",
     "icon": "🎓",
     "highlight": true
+  },
+  {
+    "id": "ach-011",
+    "title": "Content Writing Internship — InAmigos Foundation",
+    "description": "Successfully secured a Content Writing internship at InAmigos Foundation through Internshala. Created posters and promoted them on Instagram to help collect donations for the foundation.",
+    "category": "Internship",
+    "date": "2025-12",
+    "icon": "✍️",
+    "highlight": false
+  },
+  {
+    "id": "ach-012",
+    "title": "Student E-Learning Platform",
+    "description": "Created a student e-learning platform as part of the Zidio training experience.",
+    "category": "Project",
+    "date": "",
+    "icon": "📚",
+    "highlight": false
   }
 ]

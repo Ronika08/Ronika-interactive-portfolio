@@ -1,0 +1,279 @@
+[
+  {
+    "id": "mission-sakhi-ai",
+    "projectId": "sakhi-ai",
+    "missionNumber": 1,
+    "title": "The Silent Interface",
+    "difficulty": "Easy",
+    "category": "AI / UX",
+    "type": "action-selection",
+    "brief": "A user is stuck at the front door of the app.",
+    "scenario": "A rural user with low literacy and little smartphone experience has opened the app for the first time. The screen in front of them is dense with text and icons they don't recognize. They need a way in that doesn't require reading or typing.",
+    "objective": "Activate the system control that actually removes the barrier this user is facing.",
+    "interaction": {
+      "type": "action-selection",
+      "userProblem": "The user can't read the on-screen text well enough to navigate it, and has never used a smartphone keyboard.",
+      "systemState": {
+        "voice": "OFF",
+        "text": "ON"
+      },
+      "actions": [
+        {
+          "id": "activate-voice",
+          "label": "Activate Voice Interaction",
+          "correct": true,
+          "systemEffect": "voice: ON, text: OFF — the user starts speaking naturally. No reading or typing required."
+        },
+        {
+          "id": "open-text-input",
+          "label": "Open Text Input",
+          "correct": false,
+          "systemEffect": "A keyboard appears. The user hesitates — typing was never the problem, reading and writing are."
+        },
+        {
+          "id": "open-settings",
+          "label": "Open Settings",
+          "correct": false,
+          "systemEffect": "A wall of configuration options appears. The barrier just got worse, not better."
+        },
+        {
+          "id": "restart-interface",
+          "label": "Restart Interface",
+          "correct": false,
+          "systemEffect": "The app reloads to the exact same screen. Nothing about the barrier has changed."
+        }
+      ]
+    },
+    "success": {
+      "message": "Barrier removed.",
+      "explanation": "Voice-first interaction is the core design choice here — it lets the user speak instead of reading or typing, which is what actually removes the literacy and smartphone-familiarity barrier.",
+      "unlockMessage": "System stabilized. Sakhi AI unlocked."
+    },
+    "hint": "Think about what removes the need to read or type entirely.",
+    "xp": 100
+  },
+  {
+    "id": "mission-it-ops-intelligence",
+    "projectId": "it-ops-intelligence",
+    "missionNumber": 2,
+    "title": "Incident Investigation",
+    "difficulty": "Medium",
+    "category": "IT Operations / RCA",
+    "type": "investigation",
+    "brief": "An SLA threshold has just been breached.",
+    "scenario": "The IT Operations Console has opened a new incident: orders-service has crossed its error-rate SLA threshold. Before any explanation — human or AI — can be trusted, the rule-based RCA engine needs real evidence added to its evidence chain.",
+    "objective": "Inspect each evidence card, then add the ones that actually belong in the root-cause evidence chain.",
+    "interaction": {
+      "type": "investigation",
+      "consoleLabel": "IT Operations Console",
+      "incidentSignal": "orders-service error rate has crossed its SLA threshold.",
+      "supportedStates": [
+        "uninspected",
+        "inspected",
+        "selected"
+      ],
+      "flow": [
+        "click evidence",
+        "expand details",
+        "add to RCA chain",
+        "validate chain"
+      ],
+      "evidence": [
+        {
+          "id": "ev-metrics",
+          "label": "Prometheus Metrics",
+          "detail": "orders-service error rate spiked well past the SLA threshold during the last scrape window.",
+          "isRootCause": true
+        },
+        {
+          "id": "ev-logs",
+          "label": "Correlated Service Logs",
+          "detail": "db-proxy-service logs show repeated connection timeouts in the same window as the spike.",
+          "isRootCause": true
+        },
+        {
+          "id": "ev-frontend",
+          "label": "Frontend Console Output",
+          "detail": "No related errors here — this points away from a browser-side issue.",
+          "isRootCause": false
+        },
+        {
+          "id": "ev-billing",
+          "label": "Billing Records",
+          "detail": "Unrelated system with no timing correlation to this incident.",
+          "isRootCause": false
+        }
+      ],
+      "rcaChainPrompt": "Add to RCA Chain",
+      "correctEvidenceIds": [
+        "ev-metrics",
+        "ev-logs"
+      ]
+    },
+    "success": {
+      "message": "RCA chain validated.",
+      "explanation": "The rule-based engine cites the metrics spike and the correlated db-proxy timeouts as its evidence — a conclusion any operator can trace back to specific, real signals rather than a black-box guess.",
+      "unlockMessage": "Root cause evidence confirmed. IT Ops Intelligence unlocked."
+    },
+    "hint": "Look for evidence that's correlated in time with the incident — not just anything in the system.",
+    "xp": 150
+  },
+  {
+    "id": "mission-lru-cache",
+    "projectId": "lru-cache",
+    "missionNumber": 3,
+    "title": "Cache at Capacity",
+    "difficulty": "Easy",
+    "category": "Systems",
+    "type": "cache-interaction",
+    "brief": "The cache is full, and a new item just arrived.",
+    "scenario": "This cache holds exactly 3 entries. Right now it holds C, B, and A, with C being the most recently used. A gets accessed again, making A the most recently used entry. Then a new item, D, needs to be inserted — but the cache is already at capacity.",
+    "objective": "Evict the correct entry according to LRU behavior so D can be inserted.",
+    "interaction": {
+      "type": "cache-interaction",
+      "capacity": 3,
+      "initialState": [
+        "C",
+        "B",
+        "A"
+      ],
+      "accessSequence": [
+        "A"
+      ],
+      "stateAfterAccess": [
+        "A",
+        "C",
+        "B"
+      ],
+      "newItem": "D",
+      "evictionChoices": [
+        "A",
+        "C",
+        "B"
+      ],
+      "correctEvictionChoice": "B",
+      "interactionHint": "Cache blocks are clickable/draggable — select the block that should be evicted."
+    },
+    "success": {
+      "message": "Cache updated.",
+      "explanation": "After A was re-accessed, B became the least recently used entry — C and A were both touched more recently. LRU evicts B, and D takes its place.",
+      "unlockMessage": "Eviction correct. LRU Cache unlocked."
+    },
+    "hint": "Accessing an entry moves it to 'most recently used' — track what that leaves at the back of the line.",
+    "xp": 100
+  },
+  {
+    "id": "mission-mini-database-engine",
+    "projectId": "mini-database-engine",
+    "missionNumber": 4,
+    "title": "Find the Fast Path",
+    "difficulty": "Medium",
+    "category": "Databases",
+    "type": "query-interaction",
+    "brief": "A single row needs to be found — fast.",
+    "scenario": "The engine holds a table with 50,000 rows. There's a B-tree index on order_id. A query needs to find exactly one row by its order_id, and the planner has to pick an execution path.",
+    "objective": "Choose the operation that becomes the query's execution path.",
+    "interaction": {
+      "type": "query-interaction",
+      "table": "orders",
+      "rowCountLabel": "50,000 rows",
+      "indexedColumn": "order_id",
+      "queryGoal": "Find a single order by its order_id.",
+      "flow": [
+        "query",
+        "visitor chooses operation",
+        "execution plan",
+        "system executes",
+        "result"
+      ],
+      "operations": [
+        {
+          "id": "op-index-lookup",
+          "label": "B-tree index lookup on order_id",
+          "detail": "Traverse the balanced index tree directly to the matching row."
+        },
+        {
+          "id": "op-full-scan",
+          "label": "Full table scan",
+          "detail": "Read every one of the 50,000 rows until a match turns up."
+        },
+        {
+          "id": "op-sort-first",
+          "label": "Sort the entire table first",
+          "detail": "Reorders all 50,000 rows before searching — unnecessary for a single lookup."
+        },
+        {
+          "id": "op-cache-only",
+          "label": "Rely only on the buffer pool cache",
+          "detail": "Only helps if the page happens to already be cached — not a real access path on its own."
+        }
+      ],
+      "correctOperationId": "op-index-lookup"
+    },
+    "success": {
+      "message": "Execution plan built.",
+      "explanation": "With a B-tree index on order_id, the planner can traverse the tree directly to the matching row instead of reading all 50,000 rows — that's the whole reason the index exists.",
+      "unlockMessage": "Execution path confirmed. Mini Database Engine unlocked."
+    },
+    "hint": "There's an index on the exact column being searched — what's it for?",
+    "xp": 150
+  },
+  {
+    "id": "mission-hallucination-detection",
+    "projectId": "hallucination-detection",
+    "missionNumber": 5,
+    "title": "Verify the Claim",
+    "difficulty": "Medium",
+    "category": "AI / MLOps",
+    "type": "claim-verification",
+    "brief": "An LLM response just came in. Not every claim in it can be trusted.",
+    "scenario": "An LLM produced this response: \"The Great Barrier Reef lies off the coast of Queensland, Australia, stretches over 2,300 kilometers, and was formed entirely within the last 500 years.\" It's been decomposed into three atomic claims, and two evidence sources are available.",
+    "objective": "Connect each claim to its evidence, then identify the one that's unsupported or contradicted.",
+    "interaction": {
+      "type": "claim-verification",
+      "llmResponse": "The Great Barrier Reef lies off the coast of Queensland, Australia, stretches over 2,300 kilometers, and was formed entirely within the last 500 years.",
+      "flow": [
+        "read response",
+        "inspect claims",
+        "inspect evidence",
+        "connect claim to evidence",
+        "identify unsupported claim"
+      ],
+      "claims": [
+        {
+          "id": "claim-location",
+          "text": "The Great Barrier Reef lies off the coast of Queensland, Australia.",
+          "relatedEvidenceId": "source-geography"
+        },
+        {
+          "id": "claim-length",
+          "text": "It stretches over 2,300 kilometers.",
+          "relatedEvidenceId": "source-geography"
+        },
+        {
+          "id": "claim-formation",
+          "text": "It was formed entirely within the last 500 years.",
+          "relatedEvidenceId": "source-formation"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "source-geography",
+          "text": "The reef stretches roughly 2,300 km along Australia's northeast coast, off the state of Queensland."
+        },
+        {
+          "id": "source-formation",
+          "text": "The current reef structure has been forming over thousands of years, following the last major sea-level rise."
+        }
+      ],
+      "correctClaimId": "claim-formation"
+    },
+    "success": {
+      "message": "Hallucination detected.",
+      "explanation": "The location and length claims are entailed by the geography source. The formation claim isn't — its matched evidence describes a process spanning thousands of years, not 500, so an NLI check would flag it as unsupported.",
+      "unlockMessage": "Claim flagged and attributed to its evidence. Hallucination Detection System unlocked."
+    },
+    "hint": "Two of the three claims line up with their matched evidence almost exactly. Which one doesn't?",
+    "xp": 150
+  }
+]

@@ -1,8 +1,49 @@
 {
-  "Programming": ["Python", "Java", "JavaScript"],
-  "Frontend": ["HTML", "CSS", "JavaScript"],
-  "Backend": ["Node.js", "Express.js"],
-  "Database": ["SQLite", "SQL"],
-  "AI": ["Machine Learning", "NLP", "Artificial Intelligence"],
-  "Tools": ["Git", "GitHub", "VS Code"]
+  "Programming": [
+    "Python",
+    "SQL"
+  ],
+  "Database": [
+    "MySQL",
+    "PostgreSQL"
+  ],
+  "AI & Data Science": [
+    "Machine Learning",
+    "Deep Learning",
+    "NLP",
+    "Generative AI",
+    "LLMs",
+    "RAG",
+    "Prompt Engineering"
+  ],
+  "Data Science": [
+    "Pandas",
+    "NumPy",
+    "Matplotlib",
+    "Data Cleaning",
+    "Data Analysis",
+    "Data Visualization"
+  ],
+  "Tools & Technologies": [
+    "Git",
+    "GitHub",
+    "VS Code",
+    "Jupyter Notebook",
+    "Google Colab",
+    "Postman",
+    "Power BI",
+    "Docker"
+  ],
+  "AI Project Development": [
+    "LLM APIs",
+    "RAG Pipelines",
+    "AI Agents",
+    "Model Evaluation",
+    "API Integration",
+    "AI Automation"
+  ],
+  "Development": [
+    "REST APIs",
+    "FastAPI"
+  ]
 }

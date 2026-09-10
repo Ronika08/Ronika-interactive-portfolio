@@ -6,8 +6,28 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import projectsData from "../../data/projects.json";
+import projectsJson from "../../data/projects.json";
+import { getEffectiveData, DOMAINS } from "../../utils/portfolioStorage";
 import "./ProjectsSection.css";
+
+const projectsData = getEffectiveData(DOMAINS.PROJECTS, projectsJson);
+
+/* Projects that get the dedicated "Preview" button + modal (Phase 2-4
+   of the preview-system update). Kept as an explicit id list rather
+   than a data flag so it's obvious and easy to adjust later without
+   touching the Featured-badge logic. */
+const PREVIEW_ENABLED_IDS = new Set([
+  "sakhi-ai",
+  "it-ops-intelligence",
+  "lru-cache",
+  "mini-database-engine",
+  "hallucination-detection",
+]);
+
+/* Repos that must never be exposed as an active, recruiter-clickable
+   Source Code link in the Preview modal, even if a URL is ever present
+   in the underlying data (e.g. stored for admin reference only). */
+const PRIVATE_SOURCE_IDS = new Set(["hallucination-detection"]);
 
 /* ─── Animation Variants ─────────────────────────────────────── */
 const fadeSlideUp = {
@@ -328,8 +348,301 @@ function ProjectModal({ project, onClose }) {
   );
 }
 
+/* ─── Diagram viewer ──────────────────────────────────────────
+   Renders a diagram path as an image, or as a PDF frame when the
+   path ends in .pdf (same lightweight technique the certificates
+   PDF viewer uses). Returns null for empty/invalid paths so it can
+   be mapped over safely. */
+function DiagramViewer({ src, alt }) {
+  if (typeof src !== "string" || !src.trim()) return null;
+  const isPdf = src.toLowerCase().endsWith(".pdf");
+  return isPdf ? (
+    <iframe src={src} title={alt} className="ps-preview-diagram-frame" />
+  ) : (
+    <img src={src} alt={alt} className="ps-preview-diagram-img" loading="lazy" />
+  );
+}
+
+/* ─── Project Preview Modal ─────────────────────────────────────
+   A focused, lightweight companion to ProjectModal for the projects
+   where I want a fast "Open Demo / Try It Out / Architecture / ER
+   Diagram" view. Reuses the same ps-modal/ps-overlay chrome, escape
+   key handling, focus trap, and body-scroll lock as ProjectModal so
+   it feels like the same product rather than a second modal system.
+   Every option reads straight from project data and renders
+   "Coming Soon" until a real resource is added — nothing here is
+   fabricated. */
+function ProjectPreviewModal({ project, onClose }) {
+  const closeRef = useRef(null);
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    closeRef.current?.focus();
+    const prev = document.activeElement;
+
+    const handleKey = (e) => {
+      if (e.key === "Escape") onClose();
+
+      if (e.key === "Tab" && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+          if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "";
+      prev?.focus();
+    };
+  }, [onClose]);
+
+  const hasDemo = Boolean(project.demoVideo && project.demoVideo.trim());
+  const hasLive = Boolean(project.liveDemo && project.liveDemo.trim());
+  const archDiagrams = Array.isArray(project.architectureDiagrams) ? project.architectureDiagrams.filter(Boolean) : [];
+  const erDiagrams = Array.isArray(project.erDiagrams) ? project.erDiagrams.filter(Boolean) : [];
+  const hasSource = Boolean(project.github && project.github.trim()) && !PRIVATE_SOURCE_IDS.has(project.id);
+
+  return (
+    <div
+      className="ps-modal ps-preview-modal"
+      ref={modalRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ps-preview-title"
+    >
+      <div className="ps-modal-topbar" aria-hidden="true" />
+
+      <header className="ps-modal-header">
+        <div className="ps-modal-header-left">
+          <div className="ps-modal-badges">
+            <StatusBadge status={project.status} />
+            <CategoryBadge category={project.category} />
+          </div>
+          <h2 className="ps-modal-title" id="ps-preview-title">{project.title}</h2>
+          <p className="ps-modal-tagline">Project Preview</p>
+        </div>
+        <button
+          className="ps-modal-close"
+          onClick={onClose}
+          ref={closeRef}
+          aria-label="Close project preview"
+        >
+          ✕
+        </button>
+      </header>
+
+      <div className="ps-modal-body ps-preview-body">
+        {project.shortDescription && (
+          <InfoBlock label="Project Overview" icon="📋" full>
+            <p className="ps-info-text">{project.shortDescription}</p>
+          </InfoBlock>
+        )}
+
+        {Array.isArray(project.techStack) && project.techStack.length > 0 && (
+          <InfoBlock label="Technologies" icon="🛠️" full>
+            <div className="ps-tech-chips">
+              {project.techStack.map((t) => (
+                <span key={t} className="ps-chip">{t}</span>
+              ))}
+            </div>
+          </InfoBlock>
+        )}
+
+        <div className="ps-preview-options">
+          {/* Open Demo */}
+          <div className="ps-preview-option">
+            <div className="ps-preview-option-head">
+              <span className="ps-preview-option-icon" aria-hidden="true">🎬</span>
+              <span className="ps-preview-option-label">Open Demo</span>
+            </div>
+            {hasDemo ? (
+              <video controls className="ps-preview-media" src={project.demoVideo}>
+                Your browser does not support embedded video.
+              </video>
+            ) : (
+              <span className="ps-preview-soon">Coming Soon</span>
+            )}
+          </div>
+
+          {/* Try It Out */}
+          <div className="ps-preview-option">
+            <div className="ps-preview-option-head">
+              <span className="ps-preview-option-icon" aria-hidden="true">🚀</span>
+              <span className="ps-preview-option-label">Try It Out</span>
+            </div>
+            {hasLive ? (
+              <a
+                href={project.liveDemo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ps-btn ps-btn-primary"
+                aria-label={`Open the live deployed app for ${project.title}`}
+              >
+                Open Live App <span aria-hidden="true">↗</span>
+              </a>
+            ) : (
+              <span className="ps-preview-soon">Coming Soon</span>
+            )}
+          </div>
+
+          {/* Architecture Diagram */}
+          <div className="ps-preview-option">
+            <div className="ps-preview-option-head">
+              <span className="ps-preview-option-icon" aria-hidden="true">🏗️</span>
+              <span className="ps-preview-option-label">Architecture Diagram</span>
+            </div>
+            {archDiagrams.length > 0 ? (
+              <div className="ps-preview-diagrams">
+                {archDiagrams.map((src, i) => (
+                  <DiagramViewer key={src + i} src={src} alt={`${project.title} architecture diagram ${i + 1}`} />
+                ))}
+              </div>
+            ) : (
+              <span className="ps-preview-soon">Coming Soon</span>
+            )}
+          </div>
+
+          {/* ER Diagram */}
+          <div className="ps-preview-option">
+            <div className="ps-preview-option-head">
+              <span className="ps-preview-option-icon" aria-hidden="true">🗂️</span>
+              <span className="ps-preview-option-label">ER Diagram</span>
+            </div>
+            {erDiagrams.length > 0 ? (
+              <div className="ps-preview-diagrams">
+                {erDiagrams.map((src, i) => (
+                  <DiagramViewer key={src + i} src={src} alt={`${project.title} ER diagram ${i + 1}`} />
+                ))}
+              </div>
+            ) : (
+              <span className="ps-preview-soon">Coming Soon</span>
+            )}
+          </div>
+
+          {/* Source Code */}
+          <div className="ps-preview-option">
+            <div className="ps-preview-option-head">
+              <span className="ps-preview-option-icon" aria-hidden="true">💻</span>
+              <span className="ps-preview-option-label">Source Code</span>
+            </div>
+            {hasSource ? (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ps-btn ps-btn-secondary"
+                aria-label={`View ${project.title} source code on GitHub`}
+              >
+                <span aria-hidden="true">⌥</span> View Source <span aria-hidden="true">↗</span>
+              </a>
+            ) : (
+              <span className="ps-preview-soon">Coming Soon</span>
+            )}
+          </div>
+        </div>
+
+        {/* ── Optional project-specific info (data-driven; only renders
+             when a project actually supplies it — currently IT Ops) ── */}
+        {project.demoAccess && Array.isArray(project.demoAccess.accounts) && project.demoAccess.accounts.length > 0 && (
+          <details className="ps-preview-extra">
+            <summary className="ps-preview-extra-summary">
+              <span aria-hidden="true">🔐</span> Demo Access
+            </summary>
+            <div className="ps-preview-extra-body">
+              {project.demoAccess.note && (
+                <p className="ps-info-text">{project.demoAccess.note}</p>
+              )}
+              <div className="ps-demo-access-table-wrap">
+                <table className="ps-demo-access-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Role</th>
+                      <th scope="col">Username</th>
+                      <th scope="col">Password</th>
+                      <th scope="col">Authority / Access</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {project.demoAccess.accounts.map((acc) => (
+                      <tr key={acc.role}>
+                        <td data-label="Role">{acc.role}</td>
+                        <td data-label="Username"><code>{acc.username}</code></td>
+                        <td data-label="Password"><code>{acc.password}</code></td>
+                        <td data-label="Authority / Access">{acc.authority}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </details>
+        )}
+
+        {project.demonstrates && Array.isArray(project.demonstrates.items) && project.demonstrates.items.length > 0 && (
+          <details className="ps-preview-extra">
+            <summary className="ps-preview-extra-summary">
+              <span aria-hidden="true">🏗️</span> What This Project Demonstrates
+            </summary>
+            <div className="ps-preview-extra-body">
+              {project.demonstrates.title && (
+                <p className="ps-info-text ps-preview-extra-title">{project.demonstrates.title}</p>
+              )}
+              {project.demonstrates.intro && (
+                <p className="ps-info-text">{project.demonstrates.intro}</p>
+              )}
+              <ul className="ps-feature-list" role="list">
+                {project.demonstrates.items.map((item, i) => (
+                  <li key={i} className="ps-feature-item">{item}</li>
+                ))}
+              </ul>
+            </div>
+          </details>
+        )}
+
+        {project.endToEndFlow && (
+          <details className="ps-preview-extra">
+            <summary className="ps-preview-extra-summary">
+              <span aria-hidden="true">🔄</span> End-to-End Operational Flow
+            </summary>
+            <div className="ps-preview-extra-body">
+              <p className="ps-info-text ps-flow-text">{project.endToEndFlow}</p>
+            </div>
+          </details>
+        )}
+
+        {Array.isArray(project.rbacOverview) && project.rbacOverview.length > 0 && (
+          <details className="ps-preview-extra">
+            <summary className="ps-preview-extra-summary">
+              <span aria-hidden="true">👥</span> RBAC Overview
+            </summary>
+            <div className="ps-preview-extra-body">
+              <ul className="ps-feature-list" role="list">
+                {project.rbacOverview.map((r) => (
+                  <li key={r.role} className="ps-feature-item">
+                    <strong>{r.role}</strong> → {r.description}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </details>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ─── Project Card ───────────────────────────────────────────── */
-function ProjectCard({ project, onClick }) {
+function ProjectCard({ project, onClick, onPreview }) {
   return (
     <motion.article
       className="ps-card"
@@ -343,6 +656,10 @@ function ProjectCard({ project, onClick }) {
     >
       {/* Corner accent */}
       <div className="ps-card-corner" aria-hidden="true" />
+
+      {project.featured && (
+        <span className="ps-badge-featured" aria-label="Featured project">★ Featured</span>
+      )}
 
       {/* Top row: badges + arrow */}
       <div className="ps-card-top">
@@ -360,6 +677,20 @@ function ProjectCard({ project, onClick }) {
 
       {/* Tech chips */}
       <TechChips tech={project.techStack} limit={4} />
+
+      {PREVIEW_ENABLED_IDS.has(project.id) && (
+        <button
+          type="button"
+          className="ps-btn ps-btn-secondary ps-card-preview-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            onPreview(project);
+          }}
+          aria-label={`Preview ${project.title}: demo, live app, and diagrams`}
+        >
+          <span aria-hidden="true">▣</span> Preview
+        </button>
+      )}
     </motion.article>
   );
 }
@@ -368,6 +699,7 @@ function ProjectCard({ project, onClick }) {
 export default function ProjectsSection() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [selectedProject, setSelectedProject] = useState(null);
+  const [previewProject, setPreviewProject] = useState(null);
 
   /* Derive categories dynamically from JSON — no hardcoding */
   const categories = getAllCategories(projectsData);
@@ -381,10 +713,18 @@ export default function ProjectsSection() {
   const handleOpenProject  = useCallback((project) => setSelectedProject(project), []);
   const handleCloseProject = useCallback(() => setSelectedProject(null), []);
 
+  const handleOpenPreview  = useCallback((project) => setPreviewProject(project), []);
+  const handleClosePreview = useCallback(() => setPreviewProject(null), []);
+
   /* Click outside overlay to close */
   const handleOverlayClick = useCallback(
     (e) => { if (e.target === e.currentTarget) handleCloseProject(); },
     [handleCloseProject]
+  );
+
+  const handlePreviewOverlayClick = useCallback(
+    (e) => { if (e.target === e.currentTarget) handleClosePreview(); },
+    [handleClosePreview]
   );
 
   return (
@@ -459,6 +799,7 @@ export default function ProjectsSection() {
                   key={project.id}
                   project={project}
                   onClick={handleOpenProject}
+                  onPreview={handleOpenPreview}
                 />
               ))}
             </motion.div>
@@ -501,6 +842,34 @@ export default function ProjectsSection() {
               <ProjectModal
                 project={selectedProject}
                 onClose={handleCloseProject}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Preview Modal ── */}
+      <AnimatePresence>
+        {previewProject && (
+          <motion.div
+            className="ps-overlay"
+            variants={overlayVariant}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onClick={handlePreviewOverlayClick}
+            aria-label="Project preview overlay"
+          >
+            <motion.div
+              variants={modalVariant}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              style={{ width: "100%", maxWidth: 640 }}
+            >
+              <ProjectPreviewModal
+                project={previewProject}
+                onClose={handleClosePreview}
               />
             </motion.div>
           </motion.div>

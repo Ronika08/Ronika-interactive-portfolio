@@ -1,11 +1,22 @@
 /**
  * ResumeSection.jsx
  * Obsidian Glass — Driven from profile.json
+ *
+ * Hardened to tolerate a partial or evolving profile.json: every
+ * field read from profile data is guarded, and any card whose
+ * underlying data is missing or empty is skipped instead of being
+ * rendered with blank content. This lets the section be safely
+ * mounted in App.jsx regardless of how complete profile.json is.
  */
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import profileData from "../../data/profile.json";
+import profileJson from "../../data/profile.json";
+import { getEffectiveData, getOverride, DOMAINS } from "../../utils/portfolioStorage";
 import "./ResumeSection.css";
+
+const profileData = getEffectiveData(DOMAINS.PROFILE, profileJson);
+const resumeOverride = getOverride(DOMAINS.RESUME);
 
 /* ─── Animation Variants ─────────────────────────────────── */
 const fadeSlideUp = {
@@ -38,10 +49,13 @@ function SectionCard({ icon, title, children }) {
 }
 
 function HighlightsCard({ highlights }) {
+  const items = Array.isArray(highlights) ? highlights.filter(Boolean) : [];
+  if (items.length === 0) return null;
+
   return (
     <SectionCard icon="⚡" title="Recruiter Highlights">
       <ul className="rs-highlights-list" role="list">
-        {highlights.map((h, i) => (
+        {items.map((h, i) => (
           <li key={i} className="rs-highlight-item">{h}</li>
         ))}
       </ul>
@@ -50,16 +64,21 @@ function HighlightsCard({ highlights }) {
 }
 
 function EducationCard({ education }) {
+  const items = Array.isArray(education) ? education.filter(Boolean) : [];
+  if (items.length === 0) return null;
+
   return (
     <SectionCard icon="🎓" title="Education">
-      {education.map((edu, i) => (
+      {items.map((edu, i) => (
         <div key={i} className="rs-edu-item">
-          <p className="rs-edu-degree">{edu.degree}</p>
-          <p className="rs-edu-institution">{edu.institution}</p>
-          <div className="rs-edu-meta">
-            <span>{edu.period}</span>
-            {edu.grade && <span>{edu.grade}</span>}
-          </div>
+          {edu.degree && <p className="rs-edu-degree">{edu.degree}</p>}
+          {edu.institution && <p className="rs-edu-institution">{edu.institution}</p>}
+          {(edu.period || edu.grade) && (
+            <div className="rs-edu-meta">
+              {edu.period && <span>{edu.period}</span>}
+              {edu.grade && <span>{edu.grade}</span>}
+            </div>
+          )}
         </div>
       ))}
     </SectionCard>
@@ -67,13 +86,16 @@ function EducationCard({ education }) {
 }
 
 function ExperienceCard({ experience }) {
+  const items = Array.isArray(experience) ? experience.filter(Boolean) : [];
+  if (items.length === 0) return null;
+
   return (
     <SectionCard icon="💼" title="Experience">
-      {experience.map((exp, i) => (
+      {items.map((exp, i) => (
         <div key={i} className="rs-exp-item">
-          <p className="rs-exp-role">{exp.role}</p>
-          <p className="rs-exp-company">{exp.company}</p>
-          <div className="rs-exp-period">{exp.period}</div>
+          {exp.role && <p className="rs-exp-role">{exp.role}</p>}
+          {exp.company && <p className="rs-exp-company">{exp.company}</p>}
+          {exp.period && <div className="rs-exp-period">{exp.period}</div>}
           {exp.description && <p className="rs-exp-desc">{exp.description}</p>}
         </div>
       ))}
@@ -82,10 +104,18 @@ function ExperienceCard({ experience }) {
 }
 
 function SkillsCard({ skillsSnapshot }) {
+  const entries =
+    skillsSnapshot && typeof skillsSnapshot === "object"
+      ? Object.entries(skillsSnapshot).filter(
+          ([, skills]) => Array.isArray(skills) && skills.length > 0
+        )
+      : [];
+  if (entries.length === 0) return null;
+
   return (
     <SectionCard icon="🛠️" title="Skills Snapshot">
       <div className="rs-skills-snapshot">
-        {Object.entries(skillsSnapshot).map(([domain, skills]) => (
+        {entries.map(([domain, skills]) => (
           <div key={domain}>
             <div className="rs-skill-row-label">{domain}</div>
             <div className="rs-skill-chips">
@@ -102,7 +132,14 @@ function SkillsCard({ skillsSnapshot }) {
 
 /* ─── Main Section ────────────────────────────────────────── */
 export default function ResumeSection() {
-  const p = profileData;
+  const [photoError, setPhotoError] = useState(false);
+  const p = resumeOverride?.resumePath
+    ? { ...(profileData || {}), resume: resumeOverride.resumePath }
+    : profileData || {};
+
+  const downloadFilename = p.name
+    ? `${String(p.name).trim().replace(/\s+/g, "_")}_Resume.pdf`
+    : "Resume.pdf";
 
   return (
     <section className="rs-section" id="resume" aria-labelledby="rs-section-title">
@@ -133,99 +170,117 @@ export default function ResumeSection() {
           {/* Hero card — full width */}
           <motion.div className="rs-card rs-hero" variants={cardAnim}>
             <div className="rs-hero-left">
-              <div className="rs-avatar" aria-hidden="true">👤</div>
+              {!photoError && (p.photo || "/profile-photo.jpg") ? (
+                <img
+                  src={p.photo || "/profile-photo.jpg"}
+                  alt={p.name || "Ronika S"}
+                  className="rs-avatar"
+                  loading="lazy"
+                  onError={() => setPhotoError(true)}
+                />
+              ) : (
+                <div className="rs-avatar" aria-hidden="true">👤</div>
+              )}
 
-              <div className="rs-availability">
-                <span className="rs-availability-dot" aria-hidden="true" />
-                {p.availability}
-              </div>
+              {p.availability && (
+                <div className="rs-availability">
+                  <span className="rs-availability-dot" aria-hidden="true" />
+                  {p.availability}
+                </div>
+              )}
 
-              <h2 className="rs-name">{p.name}</h2>
-              <p className="rs-headline">{p.headline}</p>
-              <p className="rs-summary">{p.summary}</p>
+              {p.name && <h2 className="rs-name">{p.name}</h2>}
+              {p.headline && <p className="rs-headline">{p.headline}</p>}
+              {p.summary && <p className="rs-summary">{p.summary}</p>}
 
               <div className="rs-meta" role="list">
-                <div className="rs-meta-item" role="listitem">
-                  <span className="rs-meta-icon" aria-hidden="true">📍</span>
-                  {p.location}
-                </div>
-                <div className="rs-meta-item" role="listitem">
-                  <span className="rs-meta-icon" aria-hidden="true">✉️</span>
-                  <a href={`mailto:${p.email}`} className="rs-meta-link">{p.email}</a>
-                </div>
-                <div className="rs-meta-item" role="listitem">
-                  <span className="rs-meta-icon" aria-hidden="true">🐙</span>
-                  <a
-                    href={p.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rs-meta-link"
-                  >
-                    {p.github.replace("https://", "")}
-                  </a>
-                </div>
-                <div className="rs-meta-item" role="listitem">
-                  <span className="rs-meta-icon" aria-hidden="true">💼</span>
-                  <a
-                    href={p.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rs-meta-link"
-                  >
-                    {p.linkedin.replace("https://", "")}
-                  </a>
-                </div>
+                {p.location && (
+                  <div className="rs-meta-item" role="listitem">
+                    <span className="rs-meta-icon" aria-hidden="true">📍</span>
+                    {p.location}
+                  </div>
+                )}
+                {p.email && (
+                  <div className="rs-meta-item" role="listitem">
+                    <span className="rs-meta-icon" aria-hidden="true">✉️</span>
+                    <a href={`mailto:${p.email}`} className="rs-meta-link">{p.email}</a>
+                  </div>
+                )}
+                {p.github && (
+                  <div className="rs-meta-item" role="listitem">
+                    <span className="rs-meta-icon" aria-hidden="true">🐙</span>
+                    <a
+                      href={p.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rs-meta-link"
+                    >
+                      {p.github.replace(/^https?:\/\//, "")}
+                    </a>
+                  </div>
+                )}
+                {p.linkedin && (
+                  <div className="rs-meta-item" role="listitem">
+                    <span className="rs-meta-icon" aria-hidden="true">💼</span>
+                    <a
+                      href={p.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rs-meta-link"
+                    >
+                      {p.linkedin.replace(/^https?:\/\//, "")}
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
 
             <div className="rs-hero-right">
-  <p className="rs-cta-label">Resume</p>
+              {p.resume ? (
+                <>
+                  <p className="rs-cta-label">Resume</p>
 
-  <div className="rs-preview-icon" aria-hidden="true">
-    📄
-  </div>
-<a
-href={p.resume}
-target="_blank"
-rel="noopener noreferrer"
-className="rs-btn-open"
+                  <div className="rs-preview-icon" aria-hidden="true">📄</div>
 
->
+                  <a
+                    href={p.resume}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rs-btn-open"
+                  >
+                    👁 View Resume
+                  </a>
 
-👁 View Resume </a>
+                  <a
+                    href={p.resume}
+                    download={downloadFilename}
+                    className="rs-btn-download"
+                  >
+                    ⬇ Download PDF
+                  </a>
 
-<a
-href={p.resume}
-download="Ronika_S_Resume.pdf"
-className="rs-btn-download"
-
->
-
-⬇ Download PDF 
-</a>
-
-  <div
-    style={{
-      width: "100%",
-      marginTop: "20px",
-      borderRadius: "12px",
-      overflow: "hidden",
-      border: "1px solid rgba(255,255,255,0.1)"
-    }}
-  >
-    <iframe
-      src="/resume.pdf"
-      title="Resume Preview"
-      width="100%"
-      height="500"
-      style={{
-        border: "none",
-        background: "#fff"
-      }}
-    />
-  </div>
-</div>
-
+                  <div
+                    style={{
+                      width: "100%",
+                      marginTop: "20px",
+                      borderRadius: "12px",
+                      overflow: "hidden",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                    }}
+                  >
+                    <iframe
+                      src={p.resume}
+                      title="Resume Preview"
+                      width="100%"
+                      height="500"
+                      style={{ border: "none", background: "#fff" }}
+                    />
+                  </div>
+                </>
+              ) : (
+                <p className="rs-cta-label">Resume not available yet</p>
+              )}
+            </div>
           </motion.div>
 
           {/* Highlights */}

@@ -1,16 +1,20 @@
 // SkillsSection.jsx
 import { motion } from 'framer-motion';
-import skills from "../../data/skills.json";
+import skillsJson from "../../data/skills.json";
+import { getEffectiveData, DOMAINS } from '../../utils/portfolioStorage';
 import './SkillsSection.css';
+
+const skills = getEffectiveData(DOMAINS.SKILLS, skillsJson);
 
 /* ── Category metadata ── */
 const CAT_META = {
-  Programming: { icon: '⚡', mod: 'skill-cat-card--programming' },
-  Frontend:    { icon: '🎨', mod: 'skill-cat-card--frontend' },
-  Backend:     { icon: '🔧', mod: 'skill-cat-card--backend' },
-  Database:    { icon: '🗄️', mod: 'skill-cat-card--database' },
-  AI:          { icon: '🤖', mod: 'skill-cat-card--ai' },
-  Tools:       { icon: '🛠️', mod: 'skill-cat-card--tools' },
+  Programming:              { icon: '⚡', mod: 'skill-cat-card--programming' },
+  Database:                 { icon: '🗄️', mod: 'skill-cat-card--database' },
+  'AI & Data Science':      { icon: '🤖', mod: 'skill-cat-card--ai' },
+  'Data Science':           { icon: '📊', mod: 'skill-cat-card--frontend' },
+  'Tools & Technologies':   { icon: '🛠️', mod: 'skill-cat-card--tools' },
+  'AI Project Development': { icon: '🚀', mod: 'skill-cat-card--backend' },
+  Development:              { icon: '🔧', mod: 'skill-cat-card--backend' },
 };
 
 /* ── Animation variants ── */
@@ -103,8 +107,16 @@ export default function SkillsSection() {
     ? skills
     : Object.entries(skills).map(([category, items]) => ({ category, items }));
 
-  /* Order matches the spec: Programming, Frontend, Backend, Database, AI, Tools */
-  const ORDER = ['Programming', 'Frontend', 'Backend', 'Database', 'AI', 'Tools'];
+  /* Order matches the spec */
+  const ORDER = [
+    'Programming',
+    'Database',
+    'AI & Data Science',
+    'Data Science',
+    'Tools & Technologies',
+    'AI Project Development',
+    'Development',
+  ];
   const sorted = [...categories].sort((a, b) => {
     const ai = ORDER.indexOf(a.category);
     const bi = ORDER.indexOf(b.category);

@@ -1,0 +1,341 @@
+/* AdminPage.css — clean, professional, self-contained admin styling.
+   Deliberately simpler than the public "Obsidian Glass" design —
+   this is a working tool for the owner, not a showcase page. Uses
+   the same theme.css variables so it still respects dark/light. */
+
+.am-shell {
+  min-height: 100vh;
+  background: var(--obsidian-base, #0a0a0f);
+  color: var(--text-primary, #f0f0ff);
+  font-family: var(--font-body, 'Inter', sans-serif);
+  padding: 24px 20px 80px;
+}
+
+.am-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto 20px;
+  flex-wrap: wrap;
+}
+
+.am-header__title {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: 1.6rem;
+  margin: 0 0 4px;
+}
+
+.am-header__subtitle {
+  margin: 0;
+  color: var(--text-secondary, rgba(240,240,255,0.65));
+  font-size: 0.85rem;
+}
+
+.am-tabs {
+  max-width: 1100px;
+  margin: 0 auto 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.am-tab {
+  padding: 9px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.1));
+  background: var(--glass-bg, rgba(18,18,28,0.5));
+  color: var(--text-secondary, rgba(240,240,255,0.65));
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.am-tab--active {
+  border-color: var(--cyan, #00e5ff);
+  color: var(--text-primary, #f0f0ff);
+  box-shadow: 0 0 0 1px var(--cyan, #00e5ff);
+}
+
+.am-content {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.am-panel {
+  background: var(--glass-bg, rgba(18,18,28,0.5));
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.08));
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.am-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.am-panel__title {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.am-panel__desc {
+  color: var(--text-secondary, rgba(240,240,255,0.6));
+  font-size: 0.82rem;
+  margin: 4px 0 0;
+}
+
+/* Forms */
+.am-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+  font-size: 0.85rem;
+}
+
+.am-field > span {
+  color: var(--text-secondary, rgba(240,240,255,0.6));
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.am-field input[type="text"],
+.am-field input[type="password"],
+.am-field input[type="email"],
+.am-field input[type="url"],
+.am-field input[type="file"],
+.am-field textarea,
+.am-field select {
+  background: var(--glass-hover, rgba(255,255,255,0.05));
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.1));
+  border-radius: 8px;
+  padding: 9px 11px;
+  color: var(--text-primary, #f0f0ff);
+  font-family: inherit;
+  font-size: 0.88rem;
+}
+
+.am-field textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.am-field input:focus,
+.am-field textarea:focus,
+.am-field select:focus {
+  outline: 2px solid var(--cyan, #00e5ff);
+  outline-offset: 1px;
+}
+
+.am-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+
+@media (max-width: 640px) {
+  .am-grid-2 { grid-template-columns: 1fr; }
+}
+
+/* Buttons */
+.am-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.12));
+  background: var(--glass-hover, rgba(255,255,255,0.06));
+  color: var(--text-primary, #f0f0ff);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.am-btn--primary {
+  background: var(--cyan, #00e5ff);
+  color: #0a0a0f;
+  border-color: var(--cyan, #00e5ff);
+}
+
+.am-btn--danger {
+  background: rgba(255, 92, 122, 0.15);
+  border-color: rgba(255, 92, 122, 0.5);
+  color: #ff8fa3;
+}
+
+.am-btn--ghost {
+  background: transparent;
+}
+
+.am-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.am-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* Lists of editable items (projects/achievements/certificates) */
+.am-item {
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.08));
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.am-item__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  background: var(--glass-hover, rgba(255,255,255,0.04));
+}
+
+.am-item__title {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.am-item__meta {
+  font-size: 0.75rem;
+  color: var(--text-muted, rgba(240,240,255,0.4));
+}
+
+.am-item__body {
+  padding: 16px;
+  border-top: 1px solid var(--glass-border, rgba(255,255,255,0.08));
+}
+
+.am-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.am-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--cyan-dim, rgba(0,229,255,0.1));
+  color: var(--cyan, #00e5ff);
+  font-size: 0.75rem;
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.1));
+}
+
+.am-chip button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+  padding: 0;
+}
+
+.am-inline-add {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.am-inline-add input {
+  flex: 1;
+}
+
+.am-alert {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  margin-bottom: 14px;
+}
+
+.am-alert--success {
+  background: rgba(52, 226, 164, 0.12);
+  border: 1px solid rgba(52, 226, 164, 0.3);
+  color: #34e2a4;
+}
+
+.am-alert--error {
+  background: rgba(255, 92, 122, 0.12);
+  border: 1px solid rgba(255, 92, 122, 0.3);
+  color: #ff8fa3;
+}
+
+.am-empty {
+  color: var(--text-muted, rgba(240,240,255,0.4));
+  font-size: 0.85rem;
+  padding: 10px 0;
+}
+
+/* Owner gate */
+.am-gate {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--obsidian-base, #0a0a0f);
+  padding: 24px;
+}
+
+.am-gate__card {
+  max-width: 420px;
+  width: 100%;
+  background: var(--glass-bg, rgba(18,18,28,0.6));
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.1));
+  border-radius: 16px;
+  padding: 28px;
+  color: var(--text-primary, #f0f0ff);
+  font-family: var(--font-body, 'Inter', sans-serif);
+}
+
+.am-gate__title {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  margin: 0 0 10px;
+}
+
+.am-gate__notice {
+  font-size: 0.8rem;
+  color: var(--text-secondary, rgba(240,240,255,0.6));
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+.am-gate__hint {
+  font-size: 0.82rem;
+  color: var(--text-secondary, rgba(240,240,255,0.6));
+  margin-bottom: 12px;
+}
+
+.am-gate__error {
+  color: #ff8fa3;
+  font-size: 0.8rem;
+  margin: -6px 0 12px;
+}
+
+.am-gate__back {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--cyan, #00e5ff);
+  font-size: 0.82rem;
+  text-decoration: none;
+}

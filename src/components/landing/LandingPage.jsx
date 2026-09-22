@@ -233,7 +233,7 @@ href="https://mail.google.com/mail/?view=cm&fs=1&to=ronikaronu8867@gmail.com"
 </a>
 <a
   className="btn btn--ghost"
-href="https://wa.me/918867837633?text=Hi%20Ronika."
+href="https://wa.me/918867832763?text=Hi%20Ronika."
   target="_blank"
   rel="noopener noreferrer"
 >
